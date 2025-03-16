@@ -1,0 +1,61 @@
+/* Estilos gerais do aplicativo */
+.contact-list {
+    max-height: 500px;
+    overflow-y: auto;
+  }
+  
+  .selected-contact {
+    background-color: #e9ecef;
+  }
+  
+  .nav-tabs .nav-link {
+    cursor: pointer;
+  }
+  
+  .schedule-list {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  /* Estilos para contatos selecionados */
+  .selected-contacts-container {
+    min-height: 100px;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  /* Estilos para badges e itens de lista */
+  .contact-badge {
+    margin-right: 0.25rem;
+    margin-bottom: 0.25rem;
+    padding: 0.5rem;
+  }
+  
+  .contact-badge span {
+    cursor: pointer;
+    margin-left: 0.25rem;
+  }
+  
+  /* Estilos para progress bars */
+  .progress-container {
+    width: 120px;
+    height: 6px;
+  }
+  
+  /* Estilos para elementos de carregamento */
+  .loading-indicator {
+    text-align: center;
+    padding: 0.75rem 0;
+  }
+  
+  .error-message {
+    text-align: center;
+    padding: 0.75rem 0;
+    color: #dc3545;
+  }
+  
+  .empty-message {
+    text-align: center;
+    padding: 0.75rem 0;
+    color: #6c757d;
+  }
