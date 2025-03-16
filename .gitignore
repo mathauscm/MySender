@@ -39,3 +39,7 @@ Thumbs.db
 
 # Tailwind CSS
 /tailwind.output.css
+
+# WhatsApp Web.js
+.wwebjs_auth
+.wwebjs_cache

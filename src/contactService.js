@@ -3,11 +3,46 @@ const { client, logger } = require('./whatsappClient');
 
 const contactService = {
   /**
+   * Aguarda até que o cliente WhatsApp esteja pronto
+   * @param {number} timeoutMs Tempo máximo de espera em ms
+   * @returns {Promise<boolean>} True se o cliente estiver pronto, false se atingir o timeout
+   */
+  waitForClientReady: async function(timeoutMs = 30000) {
+    if (client.info) {
+      return true;
+    }
+
+    let timeElapsed = 0;
+    const checkInterval = 1000; // Verificar a cada 1 segundo
+
+    return new Promise((resolve) => {
+      const checkClientReady = () => {
+        if (client.info) {
+          resolve(true);
+        } else if (timeElapsed >= timeoutMs) {
+          logger.warn(`Timeout ao aguardar cliente WhatsApp (${timeoutMs}ms)`);
+          resolve(false);
+        } else {
+          timeElapsed += checkInterval;
+          setTimeout(checkClientReady, checkInterval);
+        }
+      };
+      checkClientReady();
+    });
+  },
+
+  /**
    * Obtém todos os contatos salvos
    * @returns {Promise<Array>} Lista de contatos
    */
   getAllContacts: async function() {
     try {
+      // Verificar se o cliente está pronto
+      const isReady = await this.waitForClientReady();
+      if (!isReady) {
+        throw new Error('Cliente WhatsApp não está pronto');
+      }
+
       const contacts = await client.getContacts();
       // Filtra apenas contatos que não são grupos e que têm nome
       const validContacts = contacts.filter(contact => 

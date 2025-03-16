@@ -2,7 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { initialize: initializeWhatsapp, logger } = require('./src/whatsappClient');
+const { initialize: initializeWhatsapp, client, logger } = require('./src/whatsappClient');
 const contactService = require('./src/contactService');
 const massMessageService = require('./src/services/mass-message');
 
@@ -15,6 +15,23 @@ const port = process.env.PORT || 3030;
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Middleware para verificar se o cliente WhatsApp está pronto
+const ensureClientReady = async (req, res, next) => {
+  try {
+    const isReady = await contactService.waitForClientReady(10000); // Espera até 10 segundos
+    if (!isReady) {
+      return res.status(503).json({ 
+        error: 'Cliente WhatsApp não está pronto. Aguarde alguns instantes e tente novamente.',
+        clientStatus: client.info ? 'ready' : 'initializing'
+      });
+    }
+    next();
+  } catch (error) {
+    logger.error('Erro ao verificar status do cliente:', error);
+    return res.status(500).json({ error: 'Erro interno ao verificar status do cliente' });
+  }
+};
 
 // Configuração do Multer para upload de arquivos
 const storage = multer.diskStorage({
@@ -38,7 +55,6 @@ if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
-
 // Inicializa serviços
 async function initializeServices() {
   try {
@@ -55,8 +71,22 @@ async function initializeServices() {
   }
 }
 
-// Rotas para contatos
-app.get('/api/contacts', async (req, res) => {
+// Rota para verificação de status do servidor e cliente
+app.get('/api/status', (req, res) => {
+  try {
+    const status = {
+      server: 'online',
+      whatsapp: client.info ? 'ready' : 'initializing'
+    };
+    res.json(status);
+  } catch (error) {
+    logger.error('Erro ao obter status:', error);
+    res.status(500).json({ error: 'Erro ao obter status' });
+  }
+});
+
+// Rotas para contatos - usando o middleware de verificação
+app.get('/api/contacts', ensureClientReady, async (req, res) => {
   try {
     const contacts = await contactService.getAllContacts();
     res.json(contacts);
@@ -66,7 +96,7 @@ app.get('/api/contacts', async (req, res) => {
   }
 });
 
-app.get('/api/contacts/search', async (req, res) => {
+app.get('/api/contacts/search', ensureClientReady, async (req, res) => {
   try {
     const { q } = req.query;
     const contacts = await contactService.searchContacts(q);
@@ -77,8 +107,8 @@ app.get('/api/contacts/search', async (req, res) => {
   }
 });
 
-// Rotas para envio em massa
-app.post('/api/broadcasts', async (req, res) => {
+// Rotas para envio em massa - usando o middleware de verificação
+app.post('/api/broadcasts', ensureClientReady, async (req, res) => {
   try {
     const { contacts, message, delay } = req.body;
     
@@ -99,7 +129,7 @@ app.post('/api/broadcasts', async (req, res) => {
 });
 
 // Nova rota para agendamento de mensagens
-app.post('/api/broadcasts/schedule', async (req, res) => {
+app.post('/api/broadcasts/schedule', ensureClientReady, async (req, res) => {
   try {
     const { contacts, message, scheduledTime, delay } = req.body;
     
@@ -170,7 +200,7 @@ app.get('/api/schedules/pending', (req, res) => {
 });
 
 // Rotas para envio de mídia
-app.post('/api/broadcasts/media', upload.single('media'), async (req, res) => {
+app.post('/api/broadcasts/media', ensureClientReady, upload.single('media'), async (req, res) => {
   try {
     const { contacts, caption, delay } = req.body;
     const contactsList = JSON.parse(contacts);
@@ -200,7 +230,7 @@ app.post('/api/broadcasts/media', upload.single('media'), async (req, res) => {
 });
 
 // Nova rota para agendamento de mensagens com mídia
-app.post('/api/broadcasts/media/schedule', upload.single('media'), async (req, res) => {
+app.post('/api/broadcasts/media/schedule', ensureClientReady, upload.single('media'), async (req, res) => {
   try {
     const { contacts, caption, scheduledTime, delay } = req.body;
     const contactsList = JSON.parse(contacts);
@@ -238,6 +268,10 @@ app.post('/api/broadcasts/media/schedule', upload.single('media'), async (req, r
 initializeServices().then(() => {
   app.listen(port, () => {
     logger.info(`Servidor iniciado na porta ${port}`);
+    
+    // Adicionar mensagem clara no console com a URL
+    console.log('\x1b[36m%s\x1b[0m', `🚀 Aplicação rodando em http://localhost:${port}`);
+    console.log('\x1b[33m%s\x1b[0m', `⚠️  Se o navegador não abrir automaticamente, acesse a URL acima manualmente.`);
   });
 });
 

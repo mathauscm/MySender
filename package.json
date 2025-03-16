@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "start:browser": "node server.js & node scripts/open-browser.js"
   },
   "dependencies": {
     "bull": "^4.10.0",

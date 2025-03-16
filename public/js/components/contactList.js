@@ -10,6 +10,8 @@ let selectedContacts = [];
 let contactListEl;
 let searchInputEl;
 let onSelectionChange;
+let autoRetryTimer;
+let isLoading = false;
 
 // Inicializa o componente
 export function init(options) {
@@ -44,25 +46,69 @@ export function init(options) {
       renderContacts(contacts);
       onSelectionChange(selectedContacts);
     },
-    clearSelection
+    clearSelection,
+    refresh: loadContacts
   };
 }
 
 // Carrega a lista de contatos
 async function loadContacts() {
+  // Evitar múltiplas chamadas simultâneas
+  if (isLoading) return;
+  
+  isLoading = true;
+  
+  // Limpar qualquer timer de auto-retentativa existente
+  if (autoRetryTimer) {
+    clearTimeout(autoRetryTimer);
+    autoRetryTimer = null;
+  }
+
   try {
     contactListEl.innerHTML = '<div class="loading-indicator">Carregando contatos...</div>';
     
-    contacts = await fetchContacts();
+    const response = await fetch('/api/contacts');
+
+    if (response.status === 503) {
+      // Cliente WhatsApp não está pronto
+      const data = await response.json();
+      contactListEl.innerHTML = `
+        <div class="warning-message">
+          <p>${data.error}</p>
+          <p class="small">Tentando novamente em 5 segundos...</p>
+        </div>
+      `;
+      
+      // Agendar nova tentativa
+      autoRetryTimer = setTimeout(loadContacts, 5000);
+      return;
+    }
+    
+    if (!response.ok) {
+      throw new Error(`Erro ${response.status}: ${response.statusText}`);
+    }
+    
+    contacts = await response.json();
     renderContacts(contacts);
   } catch (error) {
-    contactListEl.innerHTML = '<div class="error-message">Erro ao carregar contatos</div>';
+    console.error('Erro ao carregar contatos:', error);
+    contactListEl.innerHTML = `
+      <div class="error-message">
+        <p>Erro ao carregar contatos</p>
+        <p class="small">Tentando novamente em 10 segundos...</p>
+      </div>
+    `;
+    
+    // Agendar nova tentativa com um intervalo maior
+    autoRetryTimer = setTimeout(loadContacts, 10000);
+  } finally {
+    isLoading = false;
   }
 }
 
 // Renderiza a lista de contatos
 function renderContacts(contactsToRender) {
-  if (contactsToRender.length === 0) {
+  if (!contactsToRender || contactsToRender.length === 0) {
     contactListEl.innerHTML = '<div class="empty-message">Nenhum contato encontrado</div>';
     return;
   }
