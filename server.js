@@ -2,9 +2,9 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { initialize: initializeWhatsapp, logger } = require('./whatsappClient');
-const contactService = require('./contactService');
-const massMessageService = require('./services/mass-message');
+const { initialize: initializeWhatsapp, logger } = require('./src/whatsappClient');
+const contactService = require('./src/contactService');
+const massMessageService = require('./src/services/mass-message');
 
 const multer = require('multer');
 
@@ -14,12 +14,12 @@ const port = process.env.PORT || 3030;
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Configuração do Multer para upload de arquivos
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
-    cb(null, path.join(__dirname, '..', 'uploads'));
+    cb(null, path.join(__dirname, 'uploads'));
   },
   filename: function(req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname));
@@ -33,7 +33,7 @@ const upload = multer({
 
 // Certifique-se de que o diretório de uploads existe
 const fs = require('fs');
-const uploadsDir = path.join(__dirname, '..', 'uploads');
+const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
