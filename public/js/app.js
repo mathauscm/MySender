@@ -10,10 +10,15 @@ import * as ScheduledList from './components/scheduledList.js';
 
 // Estado compartilhado
 let contactListAPI;
+let broadcastFormAPI;
+let scheduleFormAPI;
 
 // Função de inicialização
 document.addEventListener('DOMContentLoaded', () => {
   initializeComponents();
+  
+  // Debug para verificar se o evento foi disparado
+  console.log('DOM carregado, componentes inicializados');
 });
 
 // Inicializa todos os componentes
@@ -29,7 +34,7 @@ function initializeComponents() {
   });
   
   // Inicializar formulário de envio
-  BroadcastForm.init({
+  broadcastFormAPI = BroadcastForm.init({
     formId: 'broadcastForm',
     messageInputId: 'messageInput',
     delayInputId: 'delayInput',
@@ -40,7 +45,7 @@ function initializeComponents() {
   });
   
   // Inicializar formulário de agendamento
-  ScheduleForm.init({
+  scheduleFormAPI = ScheduleForm.init({
     formId: 'scheduleForm',
     messageInputId: 'scheduleMessageInput',
     dateInputId: 'scheduleDateInput',
@@ -74,9 +79,44 @@ function initializeComponents() {
 
 // Manipulador para alteração de seleção de contatos
 function handleContactSelectionChange(selectedContacts) {
+  console.log('handleContactSelectionChange chamado com', selectedContacts.length, 'contatos');
+  
   // Atualizar formulários com os contatos selecionados
-  BroadcastForm.init({}).updateSelectedContacts(selectedContacts);
-  ScheduleForm.init({}).updateSelectedContacts(selectedContacts);
+  if (broadcastFormAPI && broadcastFormAPI.updateSelectedContacts) {
+    broadcastFormAPI.updateSelectedContacts(selectedContacts);
+  } else {
+    console.error('broadcastFormAPI não está inicializado corretamente');
+    // Tentar recriar a API
+    broadcastFormAPI = BroadcastForm.init({
+      formId: 'broadcastForm',
+      messageInputId: 'messageInput',
+      delayInputId: 'delayInput',
+      selectedContactsId: 'selectedContacts',
+      selectedCountId: 'selectedCount',
+      sendBtnId: 'sendBtn',
+      onAfterSend: handleAfterBroadcastSent
+    });
+    broadcastFormAPI.updateSelectedContacts(selectedContacts);
+  }
+  
+  if (scheduleFormAPI && scheduleFormAPI.updateSelectedContacts) {
+    scheduleFormAPI.updateSelectedContacts(selectedContacts);
+  } else {
+    console.error('scheduleFormAPI não está inicializado corretamente');
+    // Tentar recriar a API
+    scheduleFormAPI = ScheduleForm.init({
+      formId: 'scheduleForm',
+      messageInputId: 'scheduleMessageInput',
+      dateInputId: 'scheduleDateInput',
+      timeInputId: 'scheduleTimeInput',
+      delayInputId: 'scheduleDelayInput',
+      selectedContactsId: 'scheduleSelectedContacts',
+      selectedCountId: 'scheduleSelectedCount',
+      scheduleBtnId: 'scheduleBtn',
+      onAfterSchedule: handleAfterScheduled
+    });
+    scheduleFormAPI.updateSelectedContacts(selectedContacts);
+  }
 }
 
 // Manipulador para após envio de broadcast

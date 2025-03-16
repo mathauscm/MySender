@@ -1,66 +1,179 @@
 /* Estilos gerais do aplicativo */
 .contact-list {
-    max-height: 500px;
-    overflow-y: auto;
+  max-height: 500px;
+  overflow-y: auto;
+  position: relative;
+}
+
+.selected-contact {
+  background-color: #e2f0ff !important;
+}
+
+.nav-tabs .nav-link {
+  cursor: pointer;
+}
+
+.schedule-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* Estilos para contatos selecionados */
+.selected-contacts-container {
+  min-height: 100px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* Estilos para badges e itens de lista */
+.contact-badge {
+  margin-right: 0.25rem;
+  margin-bottom: 0.25rem;
+  padding: 0.5rem;
+}
+
+.contact-badge span {
+  cursor: pointer;
+  margin-left: 0.25rem;
+}
+
+/* Estilos para progress bars */
+.progress-container {
+  width: 120px;
+  height: 6px;
+}
+
+/* Estilos para elementos de carregamento */
+.loading-indicator {
+  text-align: center;
+  padding: 0.75rem 0;
+}
+
+.error-message {
+  text-align: center;
+  padding: 0.75rem 0;
+  color: #dc3545;
+}
+
+.empty-message {
+  text-align: center;
+  padding: 0.75rem 0;
+  color: #6c757d;
+}
+
+.warning-message {
+  text-align: center;
+  padding: 0.75rem 0;
+  color: #ffc107;
+}
+
+/* Estilo para o cabeçalho da lista de contatos */
+.contact-list-header {
+  background-color: #f8f9fa;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid #dee2e6;
+  padding: 10px;
+}
+
+/* Container para contador e botões */
+.contact-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+/* Estilo para o contador de contatos */
+.contact-counter {
+  font-weight: 600;
+  color: #495057;
+  font-size: 0.9rem;
+}
+
+/* Container para os botões */
+.contact-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Estilos específicos para os botões */
+.btn-contact-action {
+  font-size: 0.8rem;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-weight: 500;
+  min-width: 100px;
+  text-align: center;
+}
+
+.btn-select-all {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: white;
+}
+
+.btn-select-all:hover {
+  background-color: #0069d9;
+  border-color: #0062cc;
+}
+
+.btn-clear {
+  background-color: #f8f9fa;
+  border-color: #ced4da;
+  color: #495057;
+}
+
+.btn-clear:hover {
+  background-color: #e2e6ea;
+  border-color: #dae0e5;
+}
+
+/* Melhorar a visualização da lista de contatos */
+.contact-item {
+  transition: background-color 0.2s ease;
+}
+
+.contact-item:hover {
+  background-color: #f8f9fa;
+}
+
+/* Indicador de seleção melhorado */
+.contact-checkbox {
+  transform: scale(1.2);
+}
+
+/* Estilo para o campo de busca */
+#searchInput {
+  border-radius: 20px;
+  padding-left: 12px;
+  border: 1px solid #ced4da;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+#searchInput:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+/* Responsividade para dispositivos móveis */
+@media (max-width: 768px) {
+  .contact-list {
+    max-height: 350px;
   }
   
-  .selected-contact {
-    background-color: #e9ecef;
+  .contact-header-container {
+    flex-direction: column;
+    align-items: flex-start;
   }
   
-  .nav-tabs .nav-link {
-    cursor: pointer;
+  .contact-actions {
+    margin-top: 8px;
+    width: 100%;
   }
   
-  .schedule-list {
-    max-height: 300px;
-    overflow-y: auto;
+  .btn-contact-action {
+    flex: 1;
   }
-  
-  /* Estilos para contatos selecionados */
-  .selected-contacts-container {
-    min-height: 100px;
-    max-height: 200px;
-    overflow-y: auto;
-  }
-  
-  /* Estilos para badges e itens de lista */
-  .contact-badge {
-    margin-right: 0.25rem;
-    margin-bottom: 0.25rem;
-    padding: 0.5rem;
-  }
-  
-  .contact-badge span {
-    cursor: pointer;
-    margin-left: 0.25rem;
-  }
-  
-  /* Estilos para progress bars */
-  .progress-container {
-    width: 120px;
-    height: 6px;
-  }
-  
-  /* Estilos para elementos de carregamento */
-  .loading-indicator {
-    text-align: center;
-    padding: 0.75rem 0;
-  }
-  
-  .error-message {
-    text-align: center;
-    padding: 0.75rem 0;
-    color: #dc3545;
-  }
-  
-  .empty-message {
-    text-align: center;
-    padding: 0.75rem 0;
-    color: #6c757d;
-  }
-  .warning-message {
-    text-align: center;
-    padding: 0.75rem 0;
-    color: #ffc107;
-  }
+}

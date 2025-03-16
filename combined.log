@@ -12,3 +12,25 @@
 {"level":"info","message":"Autenticado com sucesso!","timestamp":"2025-03-16T14:53:34.845Z"}
 {"level":"info","message":"Bot está conectado e pronto para uso!","timestamp":"2025-03-16T14:53:35.392Z"}
 {"level":"info","message":"Obtidos 1562 contatos válidos","timestamp":"2025-03-16T14:54:03.707Z"}
+{"level":"info","message":"Processador de mensagens em massa iniciado","timestamp":"2025-03-16T14:59:57.908Z"}
+{"level":"info","message":"Serviços inicializados com sucesso!","timestamp":"2025-03-16T14:59:57.910Z"}
+{"level":"info","message":"Servidor iniciado na porta 3030","timestamp":"2025-03-16T14:59:57.927Z"}
+{"level":"info","message":"Autenticado com sucesso!","timestamp":"2025-03-16T15:00:03.456Z"}
+{"level":"info","message":"Bot está conectado e pronto para uso!","timestamp":"2025-03-16T15:00:03.573Z"}
+{"level":"info","message":"Obtidos 1562 contatos válidos","timestamp":"2025-03-16T15:00:34.531Z"}
+{"level":"info","message":"Obtidos 1562 contatos válidos","timestamp":"2025-03-16T15:05:19.297Z"}
+{"level":"info","message":"Processador de mensagens em massa iniciado","timestamp":"2025-03-16T15:08:37.080Z"}
+{"level":"info","message":"Serviços inicializados com sucesso!","timestamp":"2025-03-16T15:08:37.082Z"}
+{"level":"info","message":"Servidor iniciado na porta 3030","timestamp":"2025-03-16T15:08:37.098Z"}
+{"level":"info","message":"Autenticado com sucesso!","timestamp":"2025-03-16T15:08:42.876Z"}
+{"level":"info","message":"Bot está conectado e pronto para uso!","timestamp":"2025-03-16T15:08:42.958Z"}
+{"level":"info","message":"Obtidos 1562 contatos válidos","timestamp":"2025-03-16T15:08:44.372Z"}
+{"level":"info","message":"Iniciando envio em massa para 1 contatos","timestamp":"2025-03-16T15:09:07.060Z"}
+{"level":"info","message":"Broadcast 1742137747062 enfileirado com sucesso. Total: 1 mensagens.","timestamp":"2025-03-16T15:09:07.066Z"}
+{"level":"info","message":"[Broadcast 1742137747062] Mensagem enviada para 558897860504@c.us (1/1)","timestamp":"2025-03-16T15:09:07.087Z"}
+{"level":"info","message":"Processador de mensagens em massa iniciado","timestamp":"2025-03-16T15:14:11.604Z"}
+{"level":"info","message":"Serviços inicializados com sucesso!","timestamp":"2025-03-16T15:14:11.606Z"}
+{"level":"info","message":"Servidor iniciado na porta 3030","timestamp":"2025-03-16T15:14:11.622Z"}
+{"level":"info","message":"Autenticado com sucesso!","timestamp":"2025-03-16T15:14:17.089Z"}
+{"level":"info","message":"Bot está conectado e pronto para uso!","timestamp":"2025-03-16T15:14:17.682Z"}
+{"level":"info","message":"Obtidos 1562 contatos válidos","timestamp":"2025-03-16T15:14:30.650Z"}

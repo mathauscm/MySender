@@ -17,19 +17,40 @@ let onAfterSend;
 
 // Inicializa o componente
 export function init(options) {
-  formEl = document.getElementById(options.formId);
-  messageInputEl = document.getElementById(options.messageInputId);
-  delayInputEl = document.getElementById(options.delayInputId);
-  selectedContactsEl = document.getElementById(options.selectedContactsId);
-  selectedCountEl = document.getElementById(options.selectedCountId);
-  sendBtnEl = document.getElementById(options.sendBtnId);
-  onAfterSend = options.onAfterSend || (() => {});
+  if (options.formId) {
+    formEl = document.getElementById(options.formId);
+  }
+  if (options.messageInputId) {
+    messageInputEl = document.getElementById(options.messageInputId);
+  }
+  if (options.delayInputId) {
+    delayInputEl = document.getElementById(options.delayInputId);
+  }
+  if (options.selectedContactsId) {
+    selectedContactsEl = document.getElementById(options.selectedContactsId);
+  }
+  if (options.selectedCountId) {
+    selectedCountEl = document.getElementById(options.selectedCountId);
+  }
+  if (options.sendBtnId) {
+    sendBtnEl = document.getElementById(options.sendBtnId);
+  }
+  if (options.onAfterSend) {
+    onAfterSend = options.onAfterSend;
+  }
   
-  // Configurar event listeners
-  formEl.addEventListener('submit', handleSubmit);
+  // Verificar se todos os elementos necessários foram encontrados
+  if (formEl && !formEl._hasEventListener) {
+    formEl.addEventListener('submit', handleSubmit);
+    formEl._hasEventListener = true;
+    
+    console.log('BroadcastForm: Event listener configurado para o formulário');
+  }
   
+  // Retornar API pública
   return {
     updateSelectedContacts: (contacts) => {
+      console.log('BroadcastForm.updateSelectedContacts chamado com', contacts.length, 'contatos');
       selectedContacts = contacts;
       updateSelectedUI();
     }
@@ -38,6 +59,14 @@ export function init(options) {
 
 // Atualiza a UI para contatos selecionados
 function updateSelectedUI() {
+  if (!selectedCountEl || !selectedContactsEl || !sendBtnEl) {
+    console.error('BroadcastForm: Elementos da UI não encontrados');
+    return;
+  }
+
+  console.log('BroadcastForm.updateSelectedUI: Atualizando UI com', selectedContacts.length, 'contatos');
+  
+  // Atualizar contador de selecionados
   selectedCountEl.textContent = selectedContacts.length;
   
   if (selectedContacts.length === 0) {
