@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Enviador em Massa - WhatsApp</title>
+  <title>MySender 🤖 </title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
 </head>
@@ -48,6 +48,31 @@
                     <input type="number" id="delayInput" class="form-control" value="3000" min="1000" step="500" required>
                     <div class="form-text">Recomendamos ao menos 3000ms (3 segundos) para evitar bloqueios.</div>
                   </div>
+                  <!-- Inserindo campo para upload de mídia -->
+                  <div class="mb-3">
+                    <label for="mediaInput" class="form-label">Anexar Mídia (opcional)</label>
+                    <input type="file" id="mediaInput" class="form-control" accept="image/*,video/*,audio/*,application/pdf">
+                    <div class="form-text">Suporta imagens, vídeos, áudios e PDFs até 16MB.</div>
+                  </div>
+                  
+                  <!-- Preview de mídia (inicialmente oculto) -->
+                  <div id="mediaPreview" class="mb-3 d-none">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="d-flex align-items-center">
+                          <div class="me-3">
+                            <img id="mediaThumbnail" src="" alt="Preview" style="max-width: 100px; max-height: 100px;">
+                          </div>
+                          <div>
+                            <h6 class="mb-1" id="mediaName">Nome do arquivo</h6>
+                            <p class="mb-1 small text-muted" id="mediaType">Tipo: Imagem</p>
+                            <button type="button" id="clearMediaBtn" class="btn btn-sm btn-outline-danger">Remover</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
                   <div class="mb-3">
                     <label class="form-label">Contatos selecionados: <span id="selectedCount">0</span></label>
                     <div id="selectedContacts" class="bg-light p-2 rounded mb-2 selected-contacts-container">
@@ -91,6 +116,31 @@
                     <input type="number" id="scheduleDelayInput" class="form-control" value="3000" min="1000" step="500" required>
                     <div class="form-text">Recomendamos ao menos 3000ms (3 segundos) para evitar bloqueios.</div>
                   </div>
+                  <!-- Inserindo campo para upload de mídia no agendamento -->
+                  <div class="mb-3">
+                    <label for="scheduleMediaInput" class="form-label">Anexar Mídia (opcional)</label>
+                    <input type="file" id="scheduleMediaInput" class="form-control" accept="image/*,video/*,audio/*,application/pdf">
+                    <div class="form-text">Suporta imagens, vídeos, áudios e PDFs até 16MB.</div>
+                  </div>
+                  
+                  <!-- Preview de mídia (inicialmente oculto) -->
+                  <div id="scheduleMediaPreview" class="mb-3 d-none">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="d-flex align-items-center">
+                          <div class="me-3">
+                            <img id="scheduleMediaThumbnail" src="" alt="Preview" style="max-width: 100px; max-height: 100px;">
+                          </div>
+                          <div>
+                            <h6 class="mb-1" id="scheduleMediaName">Nome do arquivo</h6>
+                            <p class="mb-1 small text-muted" id="scheduleMediaType">Tipo: Imagem</p>
+                            <button type="button" id="scheduleClearMediaBtn" class="btn btn-sm btn-outline-danger">Remover</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
                   <div class="mb-3">
                     <label class="form-label">Contatos selecionados: <span id="scheduleSelectedCount">0</span></label>
                     <div id="scheduleSelectedContacts" class="bg-light p-2 rounded mb-2 selected-contacts-container">

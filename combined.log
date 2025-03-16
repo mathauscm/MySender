@@ -58,3 +58,17 @@
 {"level":"info","message":"Autenticado com sucesso!","timestamp":"2025-03-16T15:29:15.918Z"}
 {"level":"info","message":"Bot está conectado e pronto para uso!","timestamp":"2025-03-16T15:29:16.017Z"}
 {"level":"info","message":"Obtidos 1562 contatos válidos","timestamp":"2025-03-16T15:29:17.562Z"}
+{"level":"info","message":"Processador de mensagens em massa iniciado","timestamp":"2025-03-16T15:34:35.736Z"}
+{"level":"info","message":"Serviços inicializados com sucesso!","timestamp":"2025-03-16T15:34:35.740Z"}
+{"level":"info","message":"Servidor iniciado na porta 3030","timestamp":"2025-03-16T15:34:35.762Z"}
+{"level":"info","message":"Autenticado com sucesso!","timestamp":"2025-03-16T15:34:41.607Z"}
+{"level":"info","message":"Bot está conectado e pronto para uso!","timestamp":"2025-03-16T15:34:41.696Z"}
+{"level":"info","message":"Obtidos 1562 contatos válidos","timestamp":"2025-03-16T15:34:42.626Z"}
+{"level":"info","message":"Iniciando envio em massa de mídia para 1 contatos","timestamp":"2025-03-16T15:35:27.379Z"}
+{"level":"info","message":"Broadcast de mídia 1742139327381 enfileirado com sucesso. Total: 1 mensagens.","timestamp":"2025-03-16T15:35:27.400Z"}
+{"level":"info","message":"[Broadcast 1742139327381] Mídia enviada para 558897860504@c.us (1/1)","timestamp":"2025-03-16T15:35:29.008Z"}
+{"level":"info","message":"Processador de mensagens em massa iniciado","timestamp":"2025-03-16T15:36:06.711Z"}
+{"level":"info","message":"Serviços inicializados com sucesso!","timestamp":"2025-03-16T15:36:06.713Z"}
+{"level":"info","message":"Servidor iniciado na porta 3030","timestamp":"2025-03-16T15:36:06.729Z"}
+{"level":"info","message":"Autenticado com sucesso!","timestamp":"2025-03-16T15:36:12.233Z"}
+{"level":"info","message":"Bot está conectado e pronto para uso!","timestamp":"2025-03-16T15:36:12.317Z"}

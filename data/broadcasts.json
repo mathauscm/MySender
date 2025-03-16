@@ -9,5 +9,17 @@
     "successCount": 1,
     "failCount": 0,
     "isMedia": false
+  },
+  {
+    "id": "1742139327381",
+    "timestamp": "2025-03-16T15:35:27.381Z",
+    "mediaUrl": "C:\\Users\\Mathaus Carvalho\\Documents\\Projetos\\MySender\\uploads\\1742139327375.jpeg",
+    "caption": "TESTE COM MIDIA",
+    "totalContacts": 1,
+    "status": "completed",
+    "progress": 100,
+    "successCount": 1,
+    "failCount": 0,
+    "isMedia": true
   }
 ]
