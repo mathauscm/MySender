@@ -1,0 +1,41 @@
+# Dependências
+/node_modules
+/.pnp
+.pnp.js
+
+# Build
+/build
+/dist
+
+# Cache
+/.cache
+/.npm
+/.yarn
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ambiente
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# IDE/Editor
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Tailwind CSS
+/tailwind.output.css
