@@ -14,6 +14,13 @@
     .selected-contact {
       background-color: #e9ecef;
     }
+    .nav-tabs .nav-link {
+      cursor: pointer;
+    }
+    .schedule-list {
+      max-height: 300px;
+      overflow-y: auto;
+    }
   </style>
 </head>
 <body>
@@ -22,43 +29,125 @@
     
     <div class="row">
       <div class="col-md-8">
-        <div class="card mb-4">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Nova Mensagem</h5>
-          </div>
-          <div class="card-body">
-            <form id="broadcastForm">
-              <div class="mb-3">
-                <label for="messageInput" class="form-label">Mensagem</label>
-                <textarea id="messageInput" class="form-control" rows="5" required></textarea>
-              </div>
-              <div class="mb-3">
-                <label for="delayInput" class="form-label">Intervalo entre mensagens (ms)</label>
-                <input type="number" id="delayInput" class="form-control" value="3000" min="1000" step="500" required>
-                <div class="form-text">Recomendamos ao menos 3000ms (3 segundos) para evitar bloqueios.</div>
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Contatos selecionados: <span id="selectedCount">0</span></label>
-                <div id="selectedContacts" class="bg-light p-2 rounded mb-2" style="min-height: 100px; max-height: 200px; overflow-y: auto;">
-                  <div class="text-muted">Nenhum contato selecionado</div>
-                </div>
-                <button type="button" id="selectAllBtn" class="btn btn-outline-secondary btn-sm me-2">Selecionar Todos</button>
-                <button type="button" id="clearSelectionBtn" class="btn btn-outline-danger btn-sm">Limpar Seleção</button>
-              </div>
-              <div class="d-flex justify-content-end">
-                <button type="submit" id="sendBtn" class="btn btn-primary" disabled>Enviar Mensagem</button>
-              </div>
-            </form>
-          </div>
-        </div>
+        <!-- Abas para navegação -->
+        <ul class="nav nav-tabs mb-3" id="mainTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="send-tab" data-bs-toggle="tab" data-bs-target="#send-content" type="button" role="tab" aria-controls="send-content" aria-selected="true">Enviar Agora</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="schedule-tab" data-bs-toggle="tab" data-bs-target="#schedule-content" type="button" role="tab" aria-controls="schedule-content" aria-selected="false">Agendar Envio</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#history-content" type="button" role="tab" aria-controls="history-content" aria-selected="false">Histórico</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="scheduled-tab" data-bs-toggle="tab" data-bs-target="#scheduled-content" type="button" role="tab" aria-controls="scheduled-content" aria-selected="false">Agendamentos</a>
+          </li>
+        </ul>
         
-        <div class="card">
-          <div class="card-header">
-            <h5 class="mb-0">Histórico de Envios</h5>
+        <!-- Conteúdo das abas -->
+        <div class="tab-content" id="mainTabsContent">
+          <!-- Aba Enviar Agora -->
+          <div class="tab-pane fade show active" id="send-content" role="tabpanel" aria-labelledby="send-tab">
+            <div class="card mb-4">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Nova Mensagem</h5>
+              </div>
+              <div class="card-body">
+                <form id="broadcastForm">
+                  <div class="mb-3">
+                    <label for="messageInput" class="form-label">Mensagem</label>
+                    <textarea id="messageInput" class="form-control" rows="5" required></textarea>
+                  </div>
+                  <div class="mb-3">
+                    <label for="delayInput" class="form-label">Intervalo entre mensagens (ms)</label>
+                    <input type="number" id="delayInput" class="form-control" value="3000" min="1000" step="500" required>
+                    <div class="form-text">Recomendamos ao menos 3000ms (3 segundos) para evitar bloqueios.</div>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Contatos selecionados: <span id="selectedCount">0</span></label>
+                    <div id="selectedContacts" class="bg-light p-2 rounded mb-2" style="min-height: 100px; max-height: 200px; overflow-y: auto;">
+                      <div class="text-muted">Nenhum contato selecionado</div>
+                    </div>
+                    <button type="button" id="selectAllBtn" class="btn btn-outline-secondary btn-sm me-2">Selecionar Todos</button>
+                    <button type="button" id="clearSelectionBtn" class="btn btn-outline-danger btn-sm">Limpar Seleção</button>
+                  </div>
+                  <div class="d-flex justify-content-end">
+                    <button type="submit" id="sendBtn" class="btn btn-primary" disabled>Enviar Mensagem</button>
+                  </div>
+                </form>
+              </div>
+            </div>
           </div>
-          <div class="card-body">
-            <div id="broadcastHistory" class="list-group">
-              <div class="text-center py-3 text-muted">Nenhum envio realizado</div>
+          
+          <!-- Aba Agendar Envio -->
+          <div class="tab-pane fade" id="schedule-content" role="tabpanel" aria-labelledby="schedule-tab">
+            <div class="card mb-4">
+              <div class="card-header">
+                <h5 class="mb-0">Agendar Envio</h5>
+              </div>
+              <div class="card-body">
+                <form id="scheduleForm">
+                  <div class="mb-3">
+                    <label for="scheduleMessageInput" class="form-label">Mensagem</label>
+                    <textarea id="scheduleMessageInput" class="form-control" rows="5" required></textarea>
+                  </div>
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <label for="scheduleDateInput" class="form-label">Data</label>
+                      <input type="date" id="scheduleDateInput" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="scheduleTimeInput" class="form-label">Hora</label>
+                      <input type="time" id="scheduleTimeInput" class="form-control" required>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="scheduleDelayInput" class="form-label">Intervalo entre mensagens (ms)</label>
+                    <input type="number" id="scheduleDelayInput" class="form-control" value="3000" min="1000" step="500" required>
+                    <div class="form-text">Recomendamos ao menos 3000ms (3 segundos) para evitar bloqueios.</div>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Contatos selecionados: <span id="scheduleSelectedCount">0</span></label>
+                    <div id="scheduleSelectedContacts" class="bg-light p-2 rounded mb-2" style="min-height: 100px; max-height: 200px; overflow-y: auto;">
+                      <div class="text-muted">Nenhum contato selecionado</div>
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-end">
+                    <button type="submit" id="scheduleBtn" class="btn btn-primary" disabled>Agendar Envio</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Aba Histórico -->
+          <div class="tab-pane fade" id="history-content" role="tabpanel" aria-labelledby="history-tab">
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Histórico de Envios</h5>
+                <button id="refreshHistoryBtn" class="btn btn-sm btn-outline-primary">Atualizar</button>
+              </div>
+              <div class="card-body">
+                <div id="broadcastHistory" class="list-group">
+                  <div class="text-center py-3 text-muted">Nenhum envio realizado</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Aba Agendamentos -->
+          <div class="tab-pane fade" id="scheduled-content" role="tabpanel" aria-labelledby="scheduled-tab">
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Mensagens Agendadas</h5>
+                <button id="refreshScheduledBtn" class="btn btn-sm btn-outline-primary">Atualizar</button>
+              </div>
+              <div class="card-body">
+                <div id="scheduledList" class="list-group schedule-list">
+                  <div class="text-center py-3 text-muted">Nenhum agendamento encontrado</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -83,6 +172,9 @@
     </div>
   </div>
   
+  <!-- Bootstrap JS e Popper.js -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
   <script>
     // Variáveis globais
     let contacts = [];
@@ -91,14 +183,25 @@
     // Elementos DOM
     const contactListEl = document.getElementById('contactList');
     const selectedContactsEl = document.getElementById('selectedContacts');
+    const scheduleSelectedContactsEl = document.getElementById('scheduleSelectedContacts');
     const selectedCountEl = document.getElementById('selectedCount');
+    const scheduleSelectedCountEl = document.getElementById('scheduleSelectedCount');
     const searchInputEl = document.getElementById('searchInput');
     const messageInputEl = document.getElementById('messageInput');
+    const scheduleMessageInputEl = document.getElementById('scheduleMessageInput');
     const delayInputEl = document.getElementById('delayInput');
+    const scheduleDelayInputEl = document.getElementById('scheduleDelayInput');
+    const scheduleDateInputEl = document.getElementById('scheduleDateInput');
+    const scheduleTimeInputEl = document.getElementById('scheduleTimeInput');
     const sendBtnEl = document.getElementById('sendBtn');
+    const scheduleBtnEl = document.getElementById('scheduleBtn');
     const broadcastFormEl = document.getElementById('broadcastForm');
+    const scheduleFormEl = document.getElementById('scheduleForm');
     const broadcastHistoryEl = document.getElementById('broadcastHistory');
+    const scheduledListEl = document.getElementById('scheduledList');
     const refreshContactsBtnEl = document.getElementById('refreshContactsBtn');
+    const refreshHistoryBtnEl = document.getElementById('refreshHistoryBtn');
+    const refreshScheduledBtnEl = document.getElementById('refreshScheduledBtn');
     const selectAllBtnEl = document.getElementById('selectAllBtn');
     const clearSelectionBtnEl = document.getElementById('clearSelectionBtn');
     
@@ -183,20 +286,26 @@
     // Atualizar UI de contatos selecionados
     function updateSelectedUI() {
       selectedCountEl.textContent = selectedContacts.length;
+      scheduleSelectedCountEl.textContent = selectedContacts.length;
       
       if (selectedContacts.length === 0) {
         selectedContactsEl.innerHTML = '<div class="text-muted">Nenhum contato selecionado</div>';
+        scheduleSelectedContactsEl.innerHTML = '<div class="text-muted">Nenhum contato selecionado</div>';
         sendBtnEl.disabled = true;
+        scheduleBtnEl.disabled = true;
       } else {
-        selectedContactsEl.innerHTML = selectedContacts.map(contact => `
+        const selectedHTML = selectedContacts.map(contact => `
           <div class="badge rounded-pill bg-secondary me-1 mb-1 p-2">
             ${escapeHtml(contact.name)}
             <span class="ms-1" style="cursor: pointer;" data-id="${contact.id}">&times;</span>
           </div>
         `).join('');
         
+        selectedContactsEl.innerHTML = selectedHTML;
+        scheduleSelectedContactsEl.innerHTML = selectedHTML;
+        
         // Adicionar event listeners para remover contatos
-        selectedContactsEl.querySelectorAll('.badge span').forEach(span => {
+        document.querySelectorAll('.badge span').forEach(span => {
           span.addEventListener('click', () => {
             const contactId = span.dataset.id;
             toggleContactSelection(contactId, false);
@@ -215,6 +324,7 @@
         });
         
         sendBtnEl.disabled = false;
+        scheduleBtnEl.disabled = false;
       }
     }
     
@@ -249,6 +359,12 @@
     
     // Atualizar lista de contatos
     refreshContactsBtnEl.addEventListener('click', fetchContacts);
+    
+    // Atualizar histórico
+    refreshHistoryBtnEl.addEventListener('click', fetchBroadcastHistory);
+    
+    // Atualizar agendamentos
+    refreshScheduledBtnEl.addEventListener('click', fetchScheduledList);
     
     // Enviar mensagem em massa
     broadcastFormEl.addEventListener('submit', async (e) => {
@@ -317,6 +433,92 @@ Tempo estimado: ${Math.ceil(result.estimatedTime / 60)} minutos`);
       }
     });
     
+    // Agendar mensagem
+    scheduleFormEl.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      if (selectedContacts.length === 0) {
+        alert('Selecione pelo menos um contato para agendar a mensagem.');
+        return;
+      }
+      
+      const message = scheduleMessageInputEl.value.trim();
+      
+      if (!message) {
+        alert('Digite uma mensagem para agendar.');
+        return;
+      }
+      
+      const scheduleDate = scheduleDateInputEl.value;
+      const scheduleTime = scheduleTimeInputEl.value;
+      
+      if (!scheduleDate || !scheduleTime) {
+        alert('Selecione a data e hora para agendamento.');
+        return;
+      }
+      
+      const scheduledTime = new Date(`${scheduleDate}T${scheduleTime}`);
+      
+      if (scheduledTime <= new Date()) {
+        alert('A data de agendamento deve ser no futuro.');
+        return;
+      }
+      
+      const delay = parseInt(scheduleDelayInputEl.value) || 3000;
+      
+      // Confirmar antes de agendar
+      if (!confirm(`Você está prestes a agendar uma mensagem para ${selectedContacts.length} contatos em ${scheduledTime.toLocaleString()}. Deseja continuar?`)) {
+        return;
+      }
+      
+      try {
+        scheduleBtnEl.disabled = true;
+        scheduleBtnEl.textContent = 'Agendando...';
+        
+        const response = await fetch('/api/broadcasts/schedule', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            contacts: selectedContacts,
+            message,
+            scheduledTime: scheduledTime.toISOString(),
+            delay
+          })
+        });
+        
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Falha ao agendar envio');
+        }
+        
+        const result = await response.json();
+        
+        alert(`Envio agendado com sucesso! 
+ID: ${result.scheduledId}
+Data: ${new Date(result.scheduledTime).toLocaleString()}
+Total de contatos: ${result.totalContacts}`);
+        
+        // Limpar formulário
+        scheduleMessageInputEl.value = '';
+        scheduleDateInputEl.value = '';
+        scheduleTimeInputEl.value = '';
+        selectedContacts = [];
+        updateSelectedUI();
+        renderContacts(contacts);
+        
+        // Atualizar lista de agendamentos
+        fetchScheduledList();
+      } catch (error) {
+        console.error('Erro ao agendar envio em massa:', error);
+        alert('Erro ao agendar envio: ' + (error.message || 'Verifique o console para mais detalhes.'));
+      } finally {
+        scheduleBtnEl.disabled = false;
+        scheduleBtnEl.textContent = 'Agendar Envio';
+      }
+    });
+    
     // Buscar histórico de broadcasts
     async function fetchBroadcastHistory() {
       try {
@@ -343,7 +545,7 @@ Tempo estimado: ${Math.ceil(result.estimatedTime / 60)} minutos`);
                 </div>
                 <small class="text-muted">${new Date(broadcast.timestamp).toLocaleString()}</small>
                 <div class="mt-2">
-                  <div class="text-truncate" style="max-width: 300px;">${escapeHtml(broadcast.message)}</div>
+                  <div class="text-truncate" style="max-width: 300px;">${escapeHtml(broadcast.message || broadcast.caption || 'Sem mensagem')}</div>
                   <small class="text-muted">Enviado para ${broadcast.totalContacts} contatos</small>
                 </div>
               </div>
@@ -353,7 +555,7 @@ Tempo estimado: ${Math.ceil(result.estimatedTime / 60)} minutos`);
                        role="progressbar" style="width: ${broadcast.progress}%"></div>
                 </div>
                 <div class="small text-center mt-1">
-                  ${broadcast.successCount}/${broadcast.totalContacts}
+                  ${broadcast.successCount || 0}/${broadcast.totalContacts}
                 </div>
               </div>
             </div>
@@ -365,12 +567,72 @@ Tempo estimado: ${Math.ceil(result.estimatedTime / 60)} minutos`);
       }
     }
     
+    // Buscar lista de agendamentos
+    async function fetchScheduledList() {
+      try {
+        const response = await fetch('/api/schedules');
+        
+        if (!response.ok) {
+          throw new Error('Falha ao buscar agendamentos');
+        }
+        
+        const schedules = await response.json();
+        
+        if (schedules.length === 0) {
+          scheduledListEl.innerHTML = '<div class="text-center py-3 text-muted">Nenhum agendamento encontrado</div>';
+          return;
+        }
+        
+        // Ordenar do mais recente para o mais antigo
+        schedules.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        
+        scheduledListEl.innerHTML = schedules.map(schedule => `
+          <div class="list-group-item">
+            <div class="d-flex justify-content-between align-items-start">
+              <div>
+                <div class="d-flex align-items-center">
+                  <h6 class="mb-0">Agendamento #${schedule.id.slice(-6)}</h6>
+                  <span class="badge ${schedule.executed ? 'bg-success' : 'bg-warning'} ms-2">
+                    ${schedule.executed ? 'Executado' : 'Pendente'}
+                  </span>
+                </div>
+                <small class="text-muted">Criado em: ${new Date(schedule.createdAt).toLocaleString()}</small>
+                <div class="mt-1">
+                  <strong>Agendado para:</strong> ${new Date(schedule.scheduledTime).toLocaleString()}
+                </div>
+                <div class="mt-2">
+                  <div class="text-truncate" style="max-width: 300px;">
+                    ${escapeHtml(schedule.message || schedule.caption || 'Sem mensagem')}
+                  </div>
+                  <small class="text-muted">
+                    ${schedule.isMedia ? 'Mídia com ' : ''}
+                    ${schedule.totalContacts} contatos
+                  </small>
+                </div>
+                ${schedule.executed ? `
+                <div class="mt-1">
+                  <small class="text-success">
+                    Executado em: ${new Date(schedule.executedAt).toLocaleString()}
+                  </small>
+                </div>
+                ` : ''}
+              </div>
+            </div>
+          </div>
+        `).join('');
+      } catch (error) {
+        console.error('Erro ao buscar agendamentos:', error);
+        scheduledListEl.innerHTML = '<div class="text-center py-3 text-danger">Erro ao carregar agendamentos</div>';
+      }
+    }
+    
     // Funções auxiliares
     function getStatusBadgeClass(status) {
       switch (status) {
         case 'completed': return 'bg-success';
         case 'in_progress': return 'bg-primary';
         case 'failed': return 'bg-danger';
+        case 'completed_with_errors': return 'bg-warning';
         default: return 'bg-secondary';
       }
     }
@@ -380,11 +642,13 @@ Tempo estimado: ${Math.ceil(result.estimatedTime / 60)} minutos`);
         case 'completed': return 'Concluído';
         case 'in_progress': return 'Em Andamento';
         case 'failed': return 'Falhou';
+        case 'completed_with_errors': return 'Concluído com Erros';
         default: return status;
       }
     }
     
     function escapeHtml(unsafe) {
+      if (!unsafe) return '';
       return unsafe
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
@@ -393,17 +657,25 @@ Tempo estimado: ${Math.ceil(result.estimatedTime / 60)} minutos`);
         .replace(/'/g, "&#039;");
     }
     
-    // Atualizar histórico periodicamente
+    // Atualizar histórico e agendamentos periodicamente
     function setupPeriodicUpdates() {
       // Atualizar histórico a cada 10 segundos
       setInterval(fetchBroadcastHistory, 10000);
+      
+      // Atualizar agendamentos a cada 30 segundos
+      setInterval(fetchScheduledList, 30000);
     }
     
     // Inicializar
     document.addEventListener('DOMContentLoaded', () => {
       fetchContacts();
       fetchBroadcastHistory();
+      fetchScheduledList();
       setupPeriodicUpdates();
+      
+      // Definir a data mínima do input de data para hoje
+      const today = new Date().toISOString().split('T')[0];
+      scheduleDateInputEl.min = today;
     });
   </script>
 </body>
