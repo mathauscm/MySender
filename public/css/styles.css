@@ -2,7 +2,9 @@
 .contact-list {
   max-height: 500px;
   overflow-y: auto;
+  overflow-x: hidden;
   position: relative;
+  width: 100%;
 }
 
 .selected-contact {
@@ -74,7 +76,9 @@
   top: 0;
   z-index: 10;
   border-bottom: 1px solid #dee2e6;
-  padding: 10px;
+  padding: 10px 15px;
+  width: 100%;
+  min-width: 300px;
 }
 
 /* Container para contador e botões */
@@ -83,6 +87,8 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 8px;
+  width: 100%;
+  flex-wrap: wrap;
 }
 
 /* Estilo para o contador de contatos */
@@ -96,15 +102,16 @@
 .contact-actions {
   display: flex;
   gap: 8px;
+  flex-wrap: nowrap;
 }
 
 /* Estilos específicos para os botões */
 .btn-contact-action {
   font-size: 0.8rem;
-  padding: 4px 10px;
+  padding: 4px 8px;
   border-radius: 4px;
   font-weight: 500;
-  min-width: 100px;
+  white-space: nowrap;
   text-align: center;
 }
 
@@ -157,6 +164,16 @@
   box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
 }
 
+/* Garantir que a interface não tenha scroll horizontal */
+.container {
+  overflow-x: hidden;
+}
+
+.card {
+  min-width: auto;
+  overflow: hidden;
+}
+
 /* Responsividade para dispositivos móveis */
 @media (max-width: 768px) {
   .contact-list {
@@ -171,9 +188,14 @@
   .contact-actions {
     margin-top: 8px;
     width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-between;
   }
   
   .btn-contact-action {
     flex: 1;
+    min-width: 0;
+    font-size: 0.75rem;
+    padding: 3px 5px;
   }
 }

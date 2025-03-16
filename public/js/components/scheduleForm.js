@@ -2,7 +2,8 @@
  * Módulo para gerenciar o formulário de agendamento
  */
 import { escapeHtml } from '../utils.js';
-import { scheduleBroadcast } from '../services/scheduleService.js';
+import { scheduleBroadcast, scheduleMediaBroadcast } from '../services/scheduleService.js';
+import { setupMediaHandlers } from './media-handlers.js';
 
 // Estado local
 let selectedContacts = [];
@@ -15,6 +16,7 @@ let selectedContactsEl;
 let selectedCountEl;
 let scheduleBtnEl;
 let onAfterSchedule;
+let mediaHandlers; // Nova variável para gerenciar mídia
 
 // Inicializa o componente
 export function init(options) {
@@ -34,6 +36,16 @@ export function init(options) {
   // Definir a data mínima como hoje
   const today = new Date().toISOString().split('T')[0];
   dateInputEl.min = today;
+  
+  // Inicializar manipuladores de mídia
+  mediaHandlers = setupMediaHandlers(
+    'scheduleMediaInput',
+    'scheduleClearMediaBtn',
+    'scheduleMediaPreview',
+    'scheduleMediaThumbnail',
+    'scheduleMediaName',
+    'scheduleMediaType'
+  );
   
   return {
     updateSelectedContacts: (contacts) => {
@@ -86,9 +98,10 @@ async function handleSubmit(e) {
   }
   
   const message = messageInputEl.value.trim();
+  const mediaFile = mediaHandlers.getSelectedMedia();
   
-  if (!message) {
-    alert('Digite uma mensagem para agendar.');
+  if (!message && !mediaFile) {
+    alert('Digite uma mensagem ou anexe uma mídia para agendar.');
     return;
   }
   
@@ -110,7 +123,7 @@ async function handleSubmit(e) {
   const delay = parseInt(delayInputEl.value) || 3000;
   
   // Confirmar antes de agendar
-  if (!confirm(`Você está prestes a agendar uma mensagem para ${selectedContacts.length} contatos em ${scheduledTime.toLocaleString()}. Deseja continuar?`)) {
+  if (!confirm(`Você está prestes a agendar ${mediaFile ? 'uma mídia' : 'uma mensagem'} para ${selectedContacts.length} contatos em ${scheduledTime.toLocaleString()}. Deseja continuar?`)) {
     return;
   }
   
@@ -118,7 +131,15 @@ async function handleSubmit(e) {
     scheduleBtnEl.disabled = true;
     scheduleBtnEl.textContent = 'Agendando...';
     
-    const result = await scheduleBroadcast(selectedContacts, message, scheduledTime, delay);
+    let result;
+    
+    if (mediaFile) {
+      // Agendar com mídia
+      result = await scheduleMediaBroadcast(selectedContacts, mediaFile, message, scheduledTime, delay);
+    } else {
+      // Agendar apenas texto
+      result = await scheduleBroadcast(selectedContacts, message, scheduledTime, delay);
+    }
     
     alert(`Envio agendado com sucesso! 
 ID: ${result.scheduledId}
@@ -129,6 +150,7 @@ Total de contatos: ${result.totalContacts}`);
     messageInputEl.value = '';
     dateInputEl.value = '';
     timeInputEl.value = '';
+    mediaHandlers.clearSelectedMedia();
     
     // Notificar conclusão
     onAfterSchedule();

@@ -2,8 +2,9 @@
  * Módulo para gerenciar o formulário de envio em massa
  */
 import { escapeHtml } from '../utils.js';
-import { sendBroadcast } from '../services/messageService.js';
+import { sendBroadcast, sendMediaBroadcast } from '../services/messageService.js';
 import { fetchBroadcastHistory } from '../services/messageService.js';
+import { setupMediaHandlers } from './media-handlers.js';
 
 // Estado local
 let selectedContacts = [];
@@ -14,6 +15,7 @@ let selectedContactsEl;
 let selectedCountEl;
 let sendBtnEl;
 let onAfterSend;
+let mediaHandlers; // Nova variável para gerenciar mídia
 
 // Inicializa o componente
 export function init(options) {
@@ -46,6 +48,16 @@ export function init(options) {
     
     console.log('BroadcastForm: Event listener configurado para o formulário');
   }
+  
+  // Inicializar manipuladores de mídia
+  mediaHandlers = setupMediaHandlers(
+    'mediaInput',
+    'clearMediaBtn',
+    'mediaPreview',
+    'mediaThumbnail',
+    'mediaName',
+    'mediaType'
+  );
   
   // Retornar API pública
   return {
@@ -108,16 +120,17 @@ async function handleSubmit(e) {
   }
   
   const message = messageInputEl.value.trim();
+  const mediaFile = mediaHandlers.getSelectedMedia();
   
-  if (!message) {
-    alert('Digite uma mensagem para enviar.');
+  if (!message && !mediaFile) {
+    alert('Digite uma mensagem ou anexe uma mídia para enviar.');
     return;
   }
   
   const delay = parseInt(delayInputEl.value) || 3000;
   
   // Confirmar antes de enviar
-  if (!confirm(`Você está prestes a enviar uma mensagem para ${selectedContacts.length} contatos. Deseja continuar?`)) {
+  if (!confirm(`Você está prestes a enviar ${mediaFile ? 'uma mídia' : 'uma mensagem'} para ${selectedContacts.length} contatos. Deseja continuar?`)) {
     return;
   }
   
@@ -125,7 +138,15 @@ async function handleSubmit(e) {
     sendBtnEl.disabled = true;
     sendBtnEl.textContent = 'Enviando...';
     
-    const result = await sendBroadcast(selectedContacts, message, delay);
+    let result;
+    
+    if (mediaFile) {
+      // Enviar com mídia
+      result = await sendMediaBroadcast(selectedContacts, mediaFile, message, delay);
+    } else {
+      // Enviar apenas texto
+      result = await sendBroadcast(selectedContacts, message, delay);
+    }
     
     alert(`Envio em massa iniciado com sucesso! 
 ID: ${result.broadcastId}
@@ -134,6 +155,7 @@ Tempo estimado: ${Math.ceil(result.estimatedTime / 60)} minutos`);
     
     // Limpar formulário
     messageInputEl.value = '';
+    mediaHandlers.clearSelectedMedia();
     
     // Notificar conclusão
     onAfterSend();
