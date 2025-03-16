@@ -2,9 +2,9 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { initialize, logger } = require('./whatsappClient');
+const { initialize: initializeWhatsapp, logger } = require('./whatsappClient');
 const contactService = require('./contactService');
-const massMessageService = require('./massMessageService');
+const massMessageService = require('./services/mass-message');
 
 const multer = require('multer');
 
@@ -43,10 +43,10 @@ if (!fs.existsSync(uploadsDir)) {
 async function initializeServices() {
   try {
     // Inicializa o cliente WhatsApp
-    initialize();
+    initializeWhatsapp();
     
     // Inicia o processador de mensagens
-    massMessageService.startProcessor();
+    massMessageService.initialize();
     
     logger.info('Serviços inicializados com sucesso!');
   } catch (error) {
@@ -233,3 +233,12 @@ app.post('/api/broadcasts/media/schedule', upload.single('media'), async (req, r
     res.status(500).json({ error: error.message || 'Erro ao agendar envio em massa de mídia' });
   }
 });
+
+// Inicia o servidor
+initializeServices().then(() => {
+  app.listen(port, () => {
+    logger.info(`Servidor iniciado na porta ${port}`);
+  });
+});
+
+module.exports = app;
