@@ -101,55 +101,118 @@ if (-not $nodeInstalled) {
 $gitInstalled = Install-ChocolateyPackage -PackageName "git" -DisplayName "Git"
 
 # Instalar Redis
-$redisInstalled = Install-ChocolateyPackage -PackageName "redis-64" -DisplayName "Redis"
+$redisInstalled = $false
+Write-ColoredMessage "Verificando se Redis está instalado..." Yellow
+
+# Tentar instalar Redis usando choco
+Write-ColoredMessage "Instalando Redis via Chocolatey..." Yellow
+choco install redis-64 -y --force
+
+# Verificar se a instalação foi bem-sucedida e tentar encontrar o Redis
+$redisPaths = @(
+    "${env:ProgramFiles}\Redis\redis-server.exe",
+    "${env:ProgramFiles(x86)}\Redis\redis-server.exe",
+    "$env:ChocolateyInstall\lib\redis-64\tools\redis-server.exe"
+)
+
+foreach ($path in $redisPaths) {
+    if (Test-Path $path) {
+        Write-ColoredMessage "Redis encontrado em: $path" Green
+        $redisPath = $path
+        $redisInstalled = $true
+        break
+    }
+}
+
+if (-not $redisInstalled) {
+    # Tentar abordagem alternativa - baixar e extrair Redis diretamente
+    Write-ColoredMessage "Instalação via Chocolatey não funcionou. Tentando baixar Redis diretamente..." Yellow
+    
+    # Criar pasta para Redis
+    $redisFolder = "$env:ProgramFiles\Redis"
+    New-Item -Path $redisFolder -ItemType Directory -Force | Out-Null
+    
+    # URL de download do Redis para Windows
+    $redisUrl = "https://github.com/microsoftarchive/redis/releases/download/win-3.2.100/Redis-x64-3.2.100.zip"
+    $redisZip = "$env:TEMP\redis.zip"
+    
+    # Baixar Redis
+    try {
+        Invoke-WebRequest -Uri $redisUrl -OutFile $redisZip
+        
+        # Extrair Redis
+        Add-Type -AssemblyName System.IO.Compression.FileSystem
+        [System.IO.Compression.ZipFile]::ExtractToDirectory($redisZip, $redisFolder)
+        
+        # Verificar se redis-server.exe existe
+        $redisPath = "$redisFolder\redis-server.exe"
+        if (Test-Path $redisPath) {
+            $redisInstalled = $true
+            Write-ColoredMessage "Redis instalado manualmente com sucesso!" Green
+        }
+    }
+    catch {
+        Write-ColoredMessage "Erro ao baixar ou extrair Redis: $_" Red
+    }
+}
+
+# Tentativa final - verificar novamente se redis-server está no PATH
+if (-not $redisInstalled) {
+    $redisServerPath = Get-Command redis-server -ErrorAction SilentlyContinue
+    if ($redisServerPath) {
+        $redisPath = $redisServerPath.Path
+        $redisInstalled = $true
+        Write-ColoredMessage "Redis encontrado no PATH: $redisPath" Green
+    }
+}
 
 # Verificar resultados das instalações
 if ($nodeInstalled -and $gitInstalled -and $redisInstalled) {
     Write-ColoredMessage "Todas as dependências foram instaladas com sucesso!" Green
     
-    # Iniciar o serviço Redis com tratamento de erro
-Write-ColoredMessage "Verificando serviço Redis..." Yellow
-$redisService = Get-Service -Name 'redis*' -ErrorAction SilentlyContinue
-if ($redisService) {
-    Write-ColoredMessage "Iniciando o serviço Redis ($($redisService.Name))..." Yellow
-    Start-Service $redisService.Name
-    Write-ColoredMessage "Serviço Redis iniciado com sucesso!" Green
-} else {
-    # Tentar iniciar o Redis via comando redis-server se o serviço não estiver registrado
-    Write-ColoredMessage "Serviço Redis não encontrado. Tentando iniciar Redis de outra forma..." Yellow
+    # Iniciar o serviço Redis ou processo com tratamento de erro
+if ($redisInstalled) {
+    Write-ColoredMessage "Tentando iniciar o Redis..." Yellow
     
-    # Verificar se redis-server está disponível no PATH
-    $redisServerPath = Get-Command redis-server -ErrorAction SilentlyContinue
+    # Primeiro, tentar iniciar como serviço
+    $redisService = Get-Service -Name 'redis*' -ErrorAction SilentlyContinue
     
-    if ($redisServerPath) {
-        # Iniciar redis-server em segundo plano
-        Write-ColoredMessage "Iniciando Redis como processo em segundo plano..." Yellow
-        Start-Process redis-server -WindowStyle Hidden
-        Write-ColoredMessage "Redis iniciado como processo em segundo plano!" Green
-    } else {
-        # Tentar encontrar redis-server em locais comuns
-        $possiblePaths = @(
-            "${env:ProgramFiles}\Redis\redis-server.exe",
-            "${env:ProgramFiles(x86)}\Redis\redis-server.exe",
-            "$env:ChocolateyInstall\lib\redis-64\tools\redis-server.exe"
-        )
-        
-        $foundRedis = $false
-        foreach ($path in $possiblePaths) {
-            if (Test-Path $path) {
-                Write-ColoredMessage "Encontrado Redis em: $path" Yellow
-                Start-Process $path -WindowStyle Hidden
-                $foundRedis = $true
-                Write-ColoredMessage "Redis iniciado como processo em segundo plano!" Green
-                break
-            }
+    if ($redisService) {
+        Write-ColoredMessage "Iniciando Redis como serviço..." Yellow
+        Start-Service $redisService.Name -ErrorAction SilentlyContinue
+        Write-ColoredMessage "Serviço Redis iniciado!" Green
+    }
+    else {
+        # Se não houver serviço, iniciar como processo
+        Write-ColoredMessage "Iniciando Redis como processo..." Yellow
+        try {
+            # Criar pasta para logs do Redis
+            $redisDataDir = "$env:ProgramFiles\Redis\data"
+            New-Item -Path $redisDataDir -ItemType Directory -Force | Out-Null
+            
+            # Iniciar redis-server em segundo plano
+            Start-Process $redisPath -ArgumentList "--maxmemory 100mb" -WindowStyle Hidden
+            Write-ColoredMessage "Redis iniciado como processo em segundo plano!" Green
+            
+            # Criar um script para iniciar Redis na inicialização
+            $startupPath = [Environment]::GetFolderPath("Startup")
+            $redisStartupScript = Join-Path $startupPath "StartRedis.bat"
+            
+            @"
+@echo off
+start "" "$redisPath" --maxmemory 100mb
+"@ | Out-File -FilePath $redisStartupScript -Encoding ASCII
+            
+            Write-ColoredMessage "Script de inicialização do Redis criado em: $redisStartupScript" Green
         }
-        
-        if (-not $foundRedis) {
-            Write-ColoredMessage "Não foi possível encontrar ou iniciar o Redis. O MySender pode não funcionar corretamente." Red
-            Write-ColoredMessage "Aviso: O script continuará, mas você precisará iniciar o Redis manualmente." Yellow
+        catch {
+            Write-ColoredMessage "Erro ao iniciar Redis: $_" Red
         }
     }
+}
+else {
+    Write-ColoredMessage "Não foi possível instalar o Redis. O MySender precisará de um servidor Redis para funcionar corretamente." Red
+    Write-ColoredMessage "O script continuará, mas você deverá instalar e configurar o Redis manualmente depois." Yellow
 }
     
     # Recarregar variáveis de ambiente para garantir que os comandos estejam disponíveis
