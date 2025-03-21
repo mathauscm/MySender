@@ -17,7 +17,12 @@
       <h1 class="mb-0">MySender 🤖 | Envio em Massa</h1>
       <div>
         <span class="text-muted me-2" id="licenseInfo">Licença: Verificando...</span>
-        <button id="logoutBtn" class="btn btn-outline-danger btn-sm">Sair</button>
+        <button id="disconnectWhatsAppBtn" class="btn btn-outline-warning btn-sm me-2">
+          <i class="bi bi-phone-vibrate me-1"></i>Desconectar WhatsApp
+        </button>
+        <button id="logoutBtn" class="btn btn-outline-danger btn-sm">
+          <i class="bi bi-box-arrow-right me-1"></i>Sair
+        </button>
       </div>
     </div>
 
@@ -256,6 +261,7 @@
       const licenseHandler = setupLicenseValidation();
       const licenseInfo = document.getElementById('licenseInfo');
       const logoutBtn = document.getElementById('logoutBtn');
+      const disconnectWhatsAppBtn = document.getElementById('disconnectWhatsAppBtn');
 
       // Exibir informações da licença
       if (licenseHandler.hasValidLicense()) {
@@ -287,6 +293,42 @@
         if (confirm('Tem certeza que deseja sair? Você precisará validar sua licença novamente.')) {
           licenseHandler.clearLicense();
           window.location.href = '/';
+        }
+      });
+
+      // Configurar botão de desconectar WhatsApp
+      disconnectWhatsAppBtn.addEventListener('click', async function () {
+        if (confirm('Tem certeza que deseja desconectar o WhatsApp? Você precisará escanear o QR Code novamente.')) {
+          disconnectWhatsAppBtn.disabled = true;
+          disconnectWhatsAppBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Desconectando...';
+          
+          try {
+            const response = await fetch('/api/whatsapp/disconnect', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+              // Mostrar mensagem de sucesso
+              alert('WhatsApp desconectado com sucesso. Você precisará escanear o QR Code novamente para se conectar.');
+              
+              // Recarregar a página para reiniciar o processo de QR Code
+              window.location.reload();
+            } else {
+              throw new Error(data.error || 'Erro ao desconectar WhatsApp');
+            }
+          } catch (error) {
+            console.error('Erro ao desconectar WhatsApp:', error);
+            alert('Erro ao desconectar WhatsApp: ' + (error.message || 'Erro desconhecido'));
+            
+            // Restaurar botão
+            disconnectWhatsAppBtn.disabled = false;
+            disconnectWhatsAppBtn.innerHTML = '<i class="bi bi-phone-vibrate me-1"></i>Desconectar WhatsApp';
+          }
         }
       });
     });

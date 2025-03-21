@@ -247,3 +247,38 @@
 {"level":"info","message":"Obtidos 792 contatos, 23 grupos e 0 etiquetas","timestamp":"2025-03-21T12:17:18.584Z"}
 {"level":"info","message":"Obtidos 810 contatos, 43 grupos e 0 etiquetas","timestamp":"2025-03-21T12:17:58.664Z"}
 {"level":"info","message":"Obtidos 855 contatos, 43 grupos e 0 etiquetas","timestamp":"2025-03-21T12:18:15.962Z"}
+{"level":"info","message":"Iniciando pré-inicialização do WhatsApp...","timestamp":"2025-03-21T16:33:59.683Z"}
+{"level":"info","message":"WhatsApp já foi pré-inicializado, ignorando reinicialização.","timestamp":"2025-03-21T16:33:59.687Z"}
+{"level":"info","message":"Processador de mensagens em massa iniciado","timestamp":"2025-03-21T16:33:59.688Z"}
+{"level":"info","message":"Serviços inicializados com sucesso!","timestamp":"2025-03-21T16:33:59.688Z"}
+{"level":"info","message":"Servidor iniciado na porta 3030","timestamp":"2025-03-21T16:33:59.712Z"}
+{"level":"info","message":"QR Code gerado! Escaneie-o com o WhatsApp do seu telefone.","timestamp":"2025-03-21T16:34:03.334Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-03-21T16:34:16.359Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-03-21T16:34:29.504Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-03-21T16:34:42.664Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-03-21T16:34:55.816Z"}
+{"level":"info","message":"QR Code gerado! Escaneie-o com o WhatsApp do seu telefone.","timestamp":"2025-03-21T16:35:03.235Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-03-21T16:35:08.963Z"}
+{"level":"info","message":"WhatsApp loading: 100% - WhatsApp","timestamp":"2025-03-21T16:35:10.755Z"}
+{"level":"info","message":"Autenticado com sucesso!","timestamp":"2025-03-21T16:35:21.345Z"}
+{"level":"info","message":"Bot está conectado e pronto para uso!","timestamp":"2025-03-21T16:35:21.851Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-03-21T16:35:22.111Z"}
+{"level":"info","message":"Obtidos 803 contatos, 43 grupos e 0 etiquetas","timestamp":"2025-03-21T16:35:27.531Z"}
+{"level":"info","message":"Iniciando pré-inicialização do WhatsApp...","timestamp":"2025-03-21T17:20:12.946Z"}
+{"level":"info","message":"WhatsApp já foi pré-inicializado, ignorando reinicialização.","timestamp":"2025-03-21T17:20:12.950Z"}
+{"level":"info","message":"Processador de mensagens em massa iniciado","timestamp":"2025-03-21T17:20:12.951Z"}
+{"level":"info","message":"Serviços inicializados com sucesso!","timestamp":"2025-03-21T17:20:12.951Z"}
+{"level":"info","message":"Servidor iniciado na porta 3030","timestamp":"2025-03-21T17:20:13.005Z"}
+{"level":"info","message":"WhatsApp loading: 0% - WhatsApp","timestamp":"2025-03-21T17:20:20.014Z"}
+{"level":"info","message":"Autenticado com sucesso!","timestamp":"2025-03-21T17:20:21.376Z"}
+{"level":"info","message":"Bot está conectado e pronto para uso!","timestamp":"2025-03-21T17:20:21.455Z"}
+{"level":"info","message":"WhatsApp loading: 99% - WhatsApp","timestamp":"2025-03-21T17:20:21.573Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-03-21T17:20:24.214Z"}
+{"level":"info","message":"Obtidos 1061 contatos, 43 grupos e 0 etiquetas","timestamp":"2025-03-21T17:20:29.837Z"}
+{"level":"info","message":"Cliente WhatsApp desconectado via API","timestamp":"2025-03-21T17:21:42.794Z"}
+{"level":"info","message":"Diretório .wwebjs_auth removido","timestamp":"2025-03-21T17:21:42.797Z"}
+{"level":"info","message":"Diretório .wwebjs_cache removido","timestamp":"2025-03-21T17:21:42.798Z"}
+{"level":"info","message":"Iniciando pré-inicialização do WhatsApp...","timestamp":"2025-03-21T17:21:43.808Z"}
+{"level":"error","message":"Erro ao obter contatos: Evaluation failed: TypeError: Cannot read properties of undefined (reading 'getContacts')\n    at pptr://__puppeteer_evaluation_script__:2:34","stack":"Error: Evaluation failed: TypeError: Cannot read properties of undefined (reading 'getContacts')\n    at pptr://__puppeteer_evaluation_script__:2:34\n    at ExecutionContext._ExecutionContext_evaluate (C:\\Users\\Mathaus Carvalho\\Documents\\Projetos\\MySender\\node_modules\\puppeteer-core\\lib\\cjs\\puppeteer\\common\\ExecutionContext.js:229:15)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async ExecutionContext.evaluate (C:\\Users\\Mathaus Carvalho\\Documents\\Projetos\\MySender\\node_modules\\puppeteer-core\\lib\\cjs\\puppeteer\\common\\ExecutionContext.js:107:16)\n    at async Client.getContacts (C:\\Users\\Mathaus Carvalho\\Documents\\Projetos\\MySender\\node_modules\\whatsapp-web.js\\src\\Client.js:1014:24)\n    at async Object.getAllContacts (C:\\Users\\Mathaus Carvalho\\Documents\\Projetos\\MySender\\src\\contactService.js:53:24)\n    at async C:\\Users\\Mathaus Carvalho\\Documents\\Projetos\\MySender\\server.js:229:22","timestamp":"2025-03-21T17:21:44.793Z"}
+{"level":"error","message":"Erro ao buscar contatos: Evaluation failed: TypeError: Cannot read properties of undefined (reading 'getContacts')\n    at pptr://__puppeteer_evaluation_script__:2:34","stack":"Error: Evaluation failed: TypeError: Cannot read properties of undefined (reading 'getContacts')\n    at pptr://__puppeteer_evaluation_script__:2:34\n    at ExecutionContext._ExecutionContext_evaluate (C:\\Users\\Mathaus Carvalho\\Documents\\Projetos\\MySender\\node_modules\\puppeteer-core\\lib\\cjs\\puppeteer\\common\\ExecutionContext.js:229:15)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async ExecutionContext.evaluate (C:\\Users\\Mathaus Carvalho\\Documents\\Projetos\\MySender\\node_modules\\puppeteer-core\\lib\\cjs\\puppeteer\\common\\ExecutionContext.js:107:16)\n    at async Client.getContacts (C:\\Users\\Mathaus Carvalho\\Documents\\Projetos\\MySender\\node_modules\\whatsapp-web.js\\src\\Client.js:1014:24)\n    at async Object.getAllContacts (C:\\Users\\Mathaus Carvalho\\Documents\\Projetos\\MySender\\src\\contactService.js:53:24)\n    at async C:\\Users\\Mathaus Carvalho\\Documents\\Projetos\\MySender\\server.js:229:22","timestamp":"2025-03-21T17:21:44.794Z"}
+{"level":"info","message":"QR Code gerado! Escaneie-o com o WhatsApp do seu telefone.","timestamp":"2025-03-21T17:21:46.970Z"}

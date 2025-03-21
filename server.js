@@ -148,6 +148,81 @@ app.get('/api/status', (req, res) => {
   }
 });
 
+// Rota para desconectar o WhatsApp
+app.post('/api/whatsapp/disconnect', verificarLicenca, async (req, res) => {
+  try {
+    // Deslogar o cliente atual
+    if (client.pupPage) {
+      await client.logout();
+      logger.info('Cliente WhatsApp desconectado via API');
+    }
+    
+    // Limpar diretórios de autenticação
+    const fs = require('fs');
+    const path = require('path');
+    
+    const authDir = path.join(__dirname, '.wwebjs_auth');
+    const cacheDir = path.join(__dirname, '.wwebjs_cache');
+    
+    // Verificar e remover diretórios
+    if (fs.existsSync(authDir)) {
+      // Usar uma função recursiva para remover diretórios
+      const rimraf = function(dir) {
+        if (fs.existsSync(dir)) {
+          fs.readdirSync(dir).forEach(function(file) {
+            const curPath = path.join(dir, file);
+            if (fs.lstatSync(curPath).isDirectory()) {
+              // Recursivamente remover subdiretórios
+              rimraf(curPath);
+            } else {
+              // Remover arquivos
+              fs.unlinkSync(curPath);
+            }
+          });
+          fs.rmdirSync(dir);
+        }
+      };
+      
+      rimraf(authDir);
+      logger.info('Diretório .wwebjs_auth removido');
+    }
+    
+    if (fs.existsSync(cacheDir)) {
+      // Usar a mesma função para remover o diretório de cache
+      const rimraf = function(dir) {
+        if (fs.existsSync(dir)) {
+          fs.readdirSync(dir).forEach(function(file) {
+            const curPath = path.join(dir, file);
+            if (fs.lstatSync(curPath).isDirectory()) {
+              rimraf(curPath);
+            } else {
+              fs.unlinkSync(curPath);
+            }
+          });
+          fs.rmdirSync(dir);
+        }
+      };
+      
+      rimraf(cacheDir);
+      logger.info('Diretório .wwebjs_cache removido');
+    }
+    
+    // Emitir evento via socket.io para informar o frontend
+    io.emit('whatsapp-disconnected');
+    
+    // Reiniciar cliente WhatsApp
+    setTimeout(() => {
+      preInitialized = false;
+      preInitializeWhatsApp();
+    }, 1000);
+    
+    res.json({ success: true, message: 'WhatsApp desconectado com sucesso' });
+  } catch (error) {
+    logger.error('Erro ao desconectar WhatsApp:', error);
+    res.status(500).json({ success: false, error: 'Erro ao desconectar WhatsApp' });
+  }
+});
+
 // Rotas para contatos - usando o middleware de verificação
 app.get('/api/contacts', ensureClientReady, async (req, res) => {
   try {

@@ -15,6 +15,9 @@ export function setupSocketConnection() {
     // Criar conexão
     socket = io();
     
+    // Tornar o socket acessível globalmente para outros módulos
+    window.socket = socket;
+    
     // Configurar handlers de conexão
     socket.on('connect', () => {
       console.log('Conectado ao servidor via Socket.IO');

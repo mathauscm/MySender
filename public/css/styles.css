@@ -243,6 +243,16 @@
   font-weight: 500;
 }
 
+/* Estilo para o botão de desconectar WhatsApp */
+#disconnectWhatsAppBtn {
+  transition: all 0.3s ease;
+}
+
+#disconnectWhatsAppBtn:hover {
+  background-color: #ffc107;
+  color: #212529;
+}
+
 /* Responsividade para dispositivos móveis */
 @media (max-width: 768px) {
   .contact-list {
@@ -271,5 +281,20 @@
   .btn-group.w-100 .btn {
     font-size: 0.7rem;
     padding: 0.2rem 0.3rem;
+  }
+  
+  /* Responsividade para cabeçalho com botões */
+  .d-flex.justify-content-between.align-items-center.mb-4 {
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+  
+  .d-flex.justify-content-between.align-items-center.mb-4 h1 {
+    margin-bottom: 15px;
+  }
+  
+  #disconnectWhatsAppBtn, #logoutBtn {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
   }
 }

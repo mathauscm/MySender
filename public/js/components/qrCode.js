@@ -55,6 +55,45 @@ export function init(options) {
     socketInstance.on('whatsapp-loading', (data) => {
       updateLoadingStatus(data.percent, data.message);
     });
+    
+    // Adicionar listener para o evento de desconexão
+    socketInstance.on('whatsapp-disconnected', () => {
+      console.log('Evento de desconexão do WhatsApp recebido');
+      
+      // Mostrar o container do QR Code
+      if (qrCodeContainerEl) {
+        qrCodeContainerEl.classList.remove('d-none');
+      }
+      
+      // Definir mensagem de status
+      if (qrStatusEl) {
+        qrStatusEl.innerHTML = `
+          <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div> 
+          Aguardando novo QR Code...
+        `;
+        qrStatusEl.classList.remove('text-success');
+        qrStatusEl.classList.add('text-primary');
+      }
+      
+      // Esconder imagem anterior do QR Code
+      if (qrImageEl) {
+        qrImageEl.classList.add('d-none');
+      }
+      
+      // Reiniciar tempo de carregamento
+      loadingStartTime = Date.now();
+      
+      // Verificar status periodicamente
+      if (statusCheckInterval) {
+        clearInterval(statusCheckInterval);
+      }
+      
+      statusCheckInterval = setInterval(() => {
+        const elapsedTime = (Date.now() - loadingStartTime) / 1000;
+        console.log(`Verificando status do WhatsApp após desconexão (${elapsedTime.toFixed(1)} segundos)`);
+        checkInitialStatus();
+      }, 3000);
+    });
   } else {
     console.error('Socket instance not available');
   }
