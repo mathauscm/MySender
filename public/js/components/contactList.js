@@ -12,6 +12,7 @@ let searchInputEl;
 let onSelectionChange;
 let autoRetryTimer;
 let isLoading = false;
+let currentFilter = 'all';
 
 // Inicializa o componente
 export function init(options) {
@@ -115,37 +116,80 @@ function renderContacts(contactsToRender) {
   
   const selectedIds = selectedContacts.map(c => c.id);
   
+  // Agrupar por tipo
+  const individualContacts = contactsToRender.filter(c => c.type === 'contact' || !c.type);
+  const groups = contactsToRender.filter(c => c.type === 'group');
+  const labels = contactsToRender.filter(c => c.type === 'label');
+  
   // Adicionar um cabeçalho com botão "Selecionar Todos" acima da lista
   let contactListHTML = `
     <div class="contact-list-header">
       <div class="contact-header-container">
-        <div class="contact-counter">${contactsToRender.length} contatos</div>
+        <div class="contact-counter">${contactsToRender.length} itens</div>
         <div class="contact-actions">
           <button type="button" id="selectAllContactsBtn" class="btn btn-contact-action btn-select-all">Selecionar Todos</button>
           <button type="button" id="clearAllContactsBtn" class="btn btn-contact-action btn-clear">Limpar</button>
         </div>
       </div>
+      <div class="btn-group w-100 mt-2">
+        <button type="button" class="btn btn-sm btn-outline-primary ${currentFilter === 'all' ? 'active' : ''}" data-filter="all">Todos (${contactsToRender.length})</button>
+        <button type="button" class="btn btn-sm btn-outline-primary ${currentFilter === 'contact' ? 'active' : ''}" data-filter="contact">Contatos (${individualContacts.length})</button>
+        <button type="button" class="btn btn-sm btn-outline-primary ${currentFilter === 'group' ? 'active' : ''}" data-filter="group">Grupos (${groups.length})</button>
+        <button type="button" class="btn btn-sm btn-outline-primary ${currentFilter === 'label' ? 'active' : ''}" data-filter="label">Etiquetas (${labels.length})</button>
+      </div>
     </div>
   `;
   
+  // Filtrar contatos de acordo com a seleção atual
+  let filteredContacts;
+  if (currentFilter === 'all') {
+    filteredContacts = contactsToRender;
+  } else {
+    filteredContacts = contactsToRender.filter(c => (c.type || 'contact') === currentFilter);
+  }
+  
   // Adicionar os contatos à lista
-  contactListHTML += contactsToRender.map(contact => `
-    <div class="list-group-item list-group-item-action contact-item ${selectedIds.includes(contact.id) ? 'selected-contact' : ''}" 
-         data-id="${contact.id}">
-      <div class="d-flex justify-content-between align-items-center">
-        <div>
-          <div class="fw-bold">${escapeHtml(contact.name)}</div>
-          <small class="text-muted">${contact.displayPhone}</small>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input contact-checkbox" type="checkbox" 
-                 ${selectedIds.includes(contact.id) ? 'checked' : ''}>
+  contactListHTML += filteredContacts.map(contact => {
+    let icon, subtitle;
+    
+    if (contact.type === 'group') {
+      icon = '<i class="bi bi-people-fill text-success me-2"></i>';
+      subtitle = `Grupo · ${contact.participantsCount || 0} participantes`;
+    } else if (contact.type === 'label') {
+      const labelColor = contact.color || '#ccc';
+      icon = `<span class="badge rounded-pill me-2" style="background-color: ${labelColor}">⦁</span>`;
+      subtitle = 'Etiqueta';
+    } else {
+      icon = '<i class="bi bi-person-fill text-primary me-2"></i>';
+      subtitle = contact.displayPhone || '';
+    }
+    
+    return `
+      <div class="list-group-item list-group-item-action contact-item ${selectedIds.includes(contact.id) ? 'selected-contact' : ''}" 
+           data-id="${contact.id}" data-type="${contact.type || 'contact'}">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <div class="fw-bold">${icon}${escapeHtml(contact.name)}</div>
+            <small class="text-muted">${subtitle}</small>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input contact-checkbox" type="checkbox" 
+                   ${selectedIds.includes(contact.id) ? 'checked' : ''}>
+          </div>
         </div>
       </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
   
   contactListEl.innerHTML = contactListHTML;
+  
+  // Adicionar listeners para os botões de filtro
+  document.querySelectorAll('.contact-list-header .btn-group .btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentFilter = btn.dataset.filter;
+      renderContacts(contacts);
+    });
+  });
   
   // Adicionar listeners para seleção de contatos
   document.querySelectorAll('.contact-item').forEach(item => {
@@ -207,8 +251,8 @@ function toggleContactSelection(contactId, isSelected) {
   }
   
   // Debug para verificar o que está acontecendo
-  console.log(`Contato ${contactId} ${isSelected ? 'selecionado' : 'deselecionado'}`);
-  console.log('Total de contatos selecionados:', selectedContacts.length);
+  console.log(`Item ${contactId} (${contact.type || 'contact'}) ${isSelected ? 'selecionado' : 'deselecionado'}`);
+  console.log('Total de itens selecionados:', selectedContacts.length);
   
   // Notificar mudança
   if (typeof onSelectionChange === 'function') {
@@ -227,15 +271,30 @@ function handleSearch(e) {
   } else {
     const filtered = contacts.filter(contact => 
       contact.name.toLowerCase().includes(searchTerm) || 
-      contact.number.includes(searchTerm)
+      (contact.number && contact.number.includes(searchTerm))
     );
     renderContacts(filtered);
   }
 }
 
-// Selecionar todos os contatos
+// Selecionar todos os contatos visíveis atualmente
 function selectAllContacts() {
-  selectedContacts = [...contacts];
+  let contactsToSelect;
+  
+  // Se há um filtro ativo, seleciona apenas os contatos desse tipo
+  if (currentFilter !== 'all') {
+    contactsToSelect = contacts.filter(c => (c.type || 'contact') === currentFilter);
+  } else {
+    contactsToSelect = [...contacts];
+  }
+  
+  // Adicionar apenas contatos que ainda não estão selecionados
+  contactsToSelect.forEach(contact => {
+    if (!selectedContacts.some(c => c.id === contact.id)) {
+      selectedContacts.push(contact);
+    }
+  });
+  
   renderContacts(contacts);
   
   // Notificar mudança explicitamente

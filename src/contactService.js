@@ -35,44 +35,75 @@ const contactService = {
    * Obtém todos os contatos salvos
    * @returns {Promise<Array>} Lista de contatos
    */
-  getAllContacts: async function () {
-    try {
-      // Verificar se o cliente está pronto
-      const isReady = await this.waitForClientReady();
-      if (!isReady) {
-        throw new Error('Cliente WhatsApp não está pronto');
-      }
-
-      const contacts = await client.getContacts();
-
-      // Analisar os formatos dos números antes de filtrar
-      contacts.forEach(contact => {
-        if (contact.name) {
-          console.log(`Contato: ${contact.name}, ID: ${contact.id.user}, isGroup: ${contact.isGroup}`);
-        }
-      });
-
-      // Filtra apenas contatos que não são grupos e que têm nome
-      const validContacts = contacts.filter(contact => 
-        !contact.isGroup && 
-        contact.name && 
-        contact.name.trim() !== '' &&
-        contact.id.user.length < 15  // Elimina IDs muito longos
-      );
-
-      logger.info(`Obtidos ${validContacts.length} contatos válidos`);
-
-      return validContacts.map(contact => ({
-        id: contact.id._serialized,
-        name: contact.name,
-        number: contact.id.user,
-        displayPhone: `+${contact.id.user}`
-      }));
-    } catch (error) {
-      logger.error('Erro ao obter contatos:', error);
-      throw error;
+// contactService.js - método atualizado
+getAllContacts: async function() {
+  try {
+    // Verificar se o cliente está pronto
+    const isReady = await this.waitForClientReady();
+    if (!isReady) {
+      throw new Error('Cliente WhatsApp não está pronto');
     }
-  },
+
+    const contacts = await client.getContacts();
+    
+    // Separar contatos, grupos e etiquetas
+    const individualContacts = contacts.filter(contact => 
+      !contact.isGroup && 
+      contact.name && 
+      contact.name.trim() !== '' &&
+      contact.id.user.length < 15  // Filtro que já está funcionando
+    ).map(contact => ({
+      id: contact.id._serialized,
+      name: contact.name,
+      number: contact.id.user,
+      displayPhone: `+${contact.id.user}`,
+      type: 'contact'
+    }));
+    
+    // Obter grupos
+    const groups = contacts.filter(contact => 
+      contact.isGroup && 
+      contact.name && 
+      contact.name.trim() !== ''
+    ).map(group => ({
+      id: group.id._serialized,
+      name: group.name,
+      number: group.id.user,
+      displayPhone: 'Grupo',
+      type: 'group',
+      participantsCount: group.participants?.length || 0
+    }));
+    
+    // Obter etiquetas - se disponíveis via API
+    let labels = [];
+    try {
+      // Tente obter etiquetas se a API suportar
+      const whatsappLabels = await client.getLabels();
+      if (whatsappLabels && Array.isArray(whatsappLabels)) {
+        labels = whatsappLabels.map(label => ({
+          id: label.id,
+          name: label.name,
+          displayPhone: 'Etiqueta',
+          type: 'label',
+          color: label.hexColor
+        }));
+      }
+    } catch (err) {
+      logger.warn('API não suporta etiquetas ou erro ao obtê-las:', err);
+      // Silenciosamente ignora se a API não suportar etiquetas
+    }
+    
+    // Combinar todos os tipos
+    const allContacts = [...individualContacts, ...groups, ...labels];
+    
+    logger.info(`Obtidos ${individualContacts.length} contatos, ${groups.length} grupos e ${labels.length} etiquetas`);
+    
+    return allContacts;
+  } catch (error) {
+    logger.error('Erro ao obter contatos:', error);
+    throw error;
+  }
+},
 
   /**
    * Busca contatos por nome ou número

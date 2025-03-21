@@ -139,3 +139,21 @@
 {"level":"info","message":"Obtidos 2 contatos válidos","timestamp":"2025-03-21T00:30:14.159Z"}
 {"level":"info","message":"Obtidos 2 contatos válidos","timestamp":"2025-03-21T00:30:16.381Z"}
 {"level":"info","message":"Obtidos 2 contatos válidos","timestamp":"2025-03-21T00:30:17.237Z"}
+{"level":"info","message":"Processador de mensagens em massa iniciado","timestamp":"2025-03-21T00:30:45.046Z"}
+{"level":"info","message":"Serviços inicializados com sucesso!","timestamp":"2025-03-21T00:30:45.048Z"}
+{"level":"info","message":"Servidor iniciado na porta 3030","timestamp":"2025-03-21T00:30:45.065Z"}
+{"level":"info","message":"Autenticado com sucesso!","timestamp":"2025-03-21T00:30:49.062Z"}
+{"level":"info","message":"Bot está conectado e pronto para uso!","timestamp":"2025-03-21T00:30:49.159Z"}
+{"level":"info","message":"Obtidos 1 contatos válidos","timestamp":"2025-03-21T00:30:49.773Z"}
+{"level":"info","message":"Iniciando envio em massa para 1 contatos","timestamp":"2025-03-21T00:31:36.266Z"}
+{"level":"info","message":"Broadcast 1742517096267 enfileirado com sucesso. Total: 1 mensagens.","timestamp":"2025-03-21T00:31:36.270Z"}
+{"level":"info","message":"[Broadcast 1742517096267] Mensagem enviada para 558597233264@c.us (1/1)","timestamp":"2025-03-21T00:31:36.281Z"}
+{"level":"info","message":"Processador de mensagens em massa iniciado","timestamp":"2025-03-21T00:41:59.489Z"}
+{"level":"info","message":"Serviços inicializados com sucesso!","timestamp":"2025-03-21T00:41:59.492Z"}
+{"level":"info","message":"Servidor iniciado na porta 3030","timestamp":"2025-03-21T00:41:59.510Z"}
+{"level":"info","message":"Autenticado com sucesso!","timestamp":"2025-03-21T00:42:06.278Z"}
+{"level":"info","message":"Obtidos 1 contatos, 1 grupos e 8 etiquetas","timestamp":"2025-03-21T00:42:06.354Z"}
+{"level":"info","message":"Bot está conectado e pronto para uso!","timestamp":"2025-03-21T00:42:06.377Z"}
+{"level":"info","message":"Iniciando envio em massa para 1 contatos","timestamp":"2025-03-21T00:42:38.318Z"}
+{"level":"info","message":"Broadcast 1742517758319 enfileirado com sucesso. Total: 1 mensagens.","timestamp":"2025-03-21T00:42:38.322Z"}
+{"level":"info","message":"[Broadcast 1742517758319] Mensagem enviada para 120363405322541799@g.us (1/1)","timestamp":"2025-03-21T00:42:38.334Z"}

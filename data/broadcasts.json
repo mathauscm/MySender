@@ -43,5 +43,16 @@
     "successCount": 1,
     "failCount": 0,
     "isMedia": false
+  },
+  {
+    "id": "1742517758319",
+    "timestamp": "2025-03-21T00:42:38.319Z",
+    "message": "Chamaaaaaaa",
+    "totalContacts": 1,
+    "status": "completed",
+    "progress": 100,
+    "successCount": 1,
+    "failCount": 0,
+    "isMedia": false
   }
 ]

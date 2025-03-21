@@ -39,6 +39,21 @@
   margin-left: 0.25rem;
 }
 
+/* Estilos para ícones nos badges e lista de contatos */
+.contact-badge i, .contact-item i {
+  width: 16px;
+  text-align: center;
+}
+
+/* Estilos para badges coloridos por tipo */
+.contact-badge.bg-success {
+  background-color: #28a745 !important;
+}
+
+.contact-badge.bg-info {
+  background-color: #17a2b8 !important;
+}
+
 /* Estilos para progress bars */
 .progress-container {
   width: 120px;
@@ -174,6 +189,37 @@
   overflow: hidden;
 }
 
+/* Estilos para o grupo de botões de filtro */
+.btn-group.w-100 {
+  margin-bottom: 8px;
+}
+
+.btn-group.w-100 .btn {
+  flex: 1;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+}
+
+/* Estilos para tipos de destinatários */
+.contact-item[data-type="group"] .fw-bold {
+  color: #28a745;
+}
+
+.contact-item[data-type="label"] .fw-bold {
+  color: #17a2b8;
+}
+
+/* Cores para badges de etiquetas */
+.badge.rounded-pill {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  text-align: center;
+  line-height: 16px;
+  padding: 0;
+  margin-right: 5px;
+}
+
 /* Responsividade para dispositivos móveis */
 @media (max-width: 768px) {
   .contact-list {
@@ -197,5 +243,10 @@
     min-width: 0;
     font-size: 0.75rem;
     padding: 3px 5px;
+  }
+  
+  .btn-group.w-100 .btn {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.3rem;
   }
 }

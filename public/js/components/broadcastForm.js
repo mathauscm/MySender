@@ -76,21 +76,54 @@ function updateSelectedUI() {
     return;
   }
 
-  console.log('BroadcastForm.updateSelectedUI: Atualizando UI com', selectedContacts.length, 'contatos');
+  console.log('BroadcastForm.updateSelectedUI: Atualizando UI com', selectedContacts.length, 'itens');
   
-  // Atualizar contador de selecionados
-  selectedCountEl.textContent = selectedContacts.length;
+  // Agrupar por tipo para estatísticas
+  const contacts = selectedContacts.filter(c => !c.type || c.type === 'contact');
+  const groups = selectedContacts.filter(c => c.type === 'group');
+  const labels = selectedContacts.filter(c => c.type === 'label');
+  
+  // Atualizar contador com estatísticas
+  if (contacts.length > 0 || groups.length > 0 || labels.length > 0) {
+    let countText = selectedContacts.length + ' ';
+    const countDetails = [];
+    
+    if (contacts.length > 0) countDetails.push(`${contacts.length} contatos`);
+    if (groups.length > 0) countDetails.push(`${groups.length} grupos`);
+    if (labels.length > 0) countDetails.push(`${labels.length} etiquetas`);
+    
+    countText += countDetails.join(', ');
+    selectedCountEl.textContent = countText;
+  } else {
+    selectedCountEl.textContent = "0";
+  }
   
   if (selectedContacts.length === 0) {
-    selectedContactsEl.innerHTML = '<div class="text-muted">Nenhum contato selecionado</div>';
+    selectedContactsEl.innerHTML = '<div class="text-muted">Nenhum destinatário selecionado</div>';
     sendBtnEl.disabled = true;
   } else {
-    const selectedHTML = selectedContacts.map(contact => `
-      <div class="badge rounded-pill bg-secondary contact-badge">
-        ${escapeHtml(contact.name)}
-        <span class="ms-1" style="cursor: pointer;" data-id="${contact.id}">&times;</span>
-      </div>
-    `).join('');
+    const selectedHTML = selectedContacts.map(item => {
+      let badgeClass = 'bg-secondary';
+      let icon = '';
+      
+      // Personalizar aparência baseado no tipo
+      if (item.type === 'group') {
+        badgeClass = 'bg-success';
+        icon = '<i class="bi bi-people-fill me-1"></i>';
+      } else if (item.type === 'label') {
+        badgeClass = 'bg-info';
+        icon = '<i class="bi bi-tag-fill me-1"></i>';
+      } else {
+        icon = '<i class="bi bi-person-fill me-1"></i>';
+      }
+      
+      return `
+        <div class="badge rounded-pill ${badgeClass} contact-badge">
+          ${icon}${escapeHtml(item.name)}
+          <span class="ms-1" style="cursor: pointer;" data-id="${item.id}">&times;</span>
+        </div>
+      `;
+    }).join('');
     
     selectedContactsEl.innerHTML = selectedHTML;
     
@@ -115,7 +148,7 @@ async function handleSubmit(e) {
   e.preventDefault();
   
   if (selectedContacts.length === 0) {
-    alert('Selecione pelo menos um contato para enviar a mensagem.');
+    alert('Selecione pelo menos um destinatário para enviar a mensagem.');
     return;
   }
   
@@ -129,8 +162,22 @@ async function handleSubmit(e) {
   
   const delay = parseInt(delayInputEl.value) || 3000;
   
+  // Contar destinatários por tipo
+  const contacts = selectedContacts.filter(c => !c.type || c.type === 'contact');
+  const groups = selectedContacts.filter(c => c.type === 'group');
+  const labels = selectedContacts.filter(c => c.type === 'label');
+  
+  // Mensagem de confirmação com detalhes
+  let confirmMessage = `Você está prestes a enviar ${mediaFile ? 'uma mídia' : 'uma mensagem'} para:\n`;
+  
+  if (contacts.length > 0) confirmMessage += `- ${contacts.length} contatos\n`;
+  if (groups.length > 0) confirmMessage += `- ${groups.length} grupos\n`;
+  if (labels.length > 0) confirmMessage += `- ${labels.length} etiquetas\n`;
+  
+  confirmMessage += "\nDeseja continuar?";
+  
   // Confirmar antes de enviar
-  if (!confirm(`Você está prestes a enviar ${mediaFile ? 'uma mídia' : 'uma mensagem'} para ${selectedContacts.length} contatos. Deseja continuar?`)) {
+  if (!confirm(confirmMessage)) {
     return;
   }
   
@@ -150,7 +197,7 @@ async function handleSubmit(e) {
     
     alert(`Envio em massa iniciado com sucesso! 
 ID: ${result.broadcastId}
-Total de contatos: ${result.totalContacts}
+Total de destinatários: ${result.totalContacts}
 Tempo estimado: ${Math.ceil(result.estimatedTime / 60)} minutos`);
     
     // Limpar formulário
