@@ -21,6 +21,16 @@
       </div>
     </div>
 
+    <!-- Componente de QR Code para WhatsApp -->
+    <div id="qrCodeContainer" class="alert alert-light border text-center mb-4 d-none">
+      <h5 id="qrStatus" class="mb-3">Aguardando código QR...</h5>
+      <img id="qrImage" class="img-fluid d-none mb-2" alt="QR Code do WhatsApp" style="max-width: 250px;">
+      <p class="small text-muted mb-0">
+        Este código QR será usado para conectar o WhatsApp ao MySender.
+        <br>Escaneie com a câmera do seu celular no aplicativo WhatsApp.
+      </p>
+    </div>
+
     <div class="row">
       <div class="col-md-8">
         <!-- Abas para navegação -->
@@ -231,6 +241,9 @@
 
   <!-- Bootstrap JS e Popper.js -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Socket.IO para comunicação em tempo real -->
+  <script src="/socket.io/socket.io.js"></script>
 
   <!-- Scripts da aplicação - usando módulos ES6 -->
   <script type="module" src="js/app.js"></script>

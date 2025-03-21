@@ -220,6 +220,29 @@
   margin-right: 5px;
 }
 
+/* Estilos para o QR Code */
+#qrCodeContainer {
+  margin-bottom: 20px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+#qrImage {
+  margin: 0 auto;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+#qrImage:hover {
+  transform: scale(1.05);
+}
+
+#qrStatus {
+  font-weight: 500;
+}
+
 /* Responsividade para dispositivos móveis */
 @media (max-width: 768px) {
   .contact-list {

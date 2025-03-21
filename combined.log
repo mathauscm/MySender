@@ -157,3 +157,93 @@
 {"level":"info","message":"Iniciando envio em massa para 1 contatos","timestamp":"2025-03-21T00:42:38.318Z"}
 {"level":"info","message":"Broadcast 1742517758319 enfileirado com sucesso. Total: 1 mensagens.","timestamp":"2025-03-21T00:42:38.322Z"}
 {"level":"info","message":"[Broadcast 1742517758319] Mensagem enviada para 120363405322541799@g.us (1/1)","timestamp":"2025-03-21T00:42:38.334Z"}
+{"level":"info","message":"Processador de mensagens em massa iniciado","timestamp":"2025-03-21T00:44:28.372Z"}
+{"level":"info","message":"Serviços inicializados com sucesso!","timestamp":"2025-03-21T00:44:28.374Z"}
+{"level":"info","message":"Servidor iniciado na porta 3030","timestamp":"2025-03-21T00:44:28.391Z"}
+{"level":"info","message":"Autenticado com sucesso!","timestamp":"2025-03-21T00:44:32.390Z"}
+{"level":"info","message":"Bot está conectado e pronto para uso!","timestamp":"2025-03-21T00:44:32.508Z"}
+{"level":"info","message":"Obtidos 1 contatos, 1 grupos e 8 etiquetas","timestamp":"2025-03-21T00:44:52.539Z"}
+{"level":"info","message":"Processador de mensagens em massa iniciado","timestamp":"2025-03-21T11:33:00.642Z"}
+{"level":"info","message":"Serviços inicializados com sucesso!","timestamp":"2025-03-21T11:33:00.645Z"}
+{"level":"info","message":"Servidor iniciado na porta 3030","timestamp":"2025-03-21T11:33:00.681Z"}
+{"level":"info","message":"Autenticado com sucesso!","timestamp":"2025-03-21T11:33:08.116Z"}
+{"level":"info","message":"Bot está conectado e pronto para uso!","timestamp":"2025-03-21T11:33:08.244Z"}
+{"level":"info","message":"Obtidos 1 contatos, 1 grupos e 8 etiquetas","timestamp":"2025-03-21T11:33:08.351Z"}
+{"level":"info","message":"Processador de mensagens em massa iniciado","timestamp":"2025-03-21T11:37:13.731Z"}
+{"level":"info","message":"Serviços inicializados com sucesso!","timestamp":"2025-03-21T11:37:13.733Z"}
+{"level":"info","message":"Servidor iniciado na porta 3030","timestamp":"2025-03-21T11:37:13.752Z"}
+{"level":"info","message":"Autenticado com sucesso!","timestamp":"2025-03-21T11:37:17.974Z"}
+{"level":"info","message":"Bot está conectado e pronto para uso!","timestamp":"2025-03-21T11:37:18.082Z"}
+{"level":"info","message":"Obtidos 1 contatos, 1 grupos e 8 etiquetas","timestamp":"2025-03-21T11:37:19.157Z"}
+{"level":"info","message":"Processador de mensagens em massa iniciado","timestamp":"2025-03-21T11:51:33.989Z"}
+{"level":"info","message":"Serviços inicializados com sucesso!","timestamp":"2025-03-21T11:51:33.992Z"}
+{"level":"info","message":"Servidor iniciado na porta 3030","timestamp":"2025-03-21T11:51:34.008Z"}
+{"level":"info","message":"QR Code gerado! Escaneie-o com o WhatsApp do seu telefone.","timestamp":"2025-03-21T11:51:40.131Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (10000ms)","timestamp":"2025-03-21T11:51:54.365Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (10000ms)","timestamp":"2025-03-21T11:52:09.472Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (10000ms)","timestamp":"2025-03-21T11:52:24.558Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (10000ms)","timestamp":"2025-03-21T11:52:39.683Z"}
+{"level":"info","message":"QR Code gerado! Escaneie-o com o WhatsApp do seu telefone.","timestamp":"2025-03-21T11:52:40.048Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (10000ms)","timestamp":"2025-03-21T11:52:55.739Z"}
+{"level":"info","message":"QR Code gerado! Escaneie-o com o WhatsApp do seu telefone.","timestamp":"2025-03-21T11:53:00.009Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (10000ms)","timestamp":"2025-03-21T11:53:10.812Z"}
+{"level":"info","message":"QR Code gerado! Escaneie-o com o WhatsApp do seu telefone.","timestamp":"2025-03-21T11:53:20.021Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (10000ms)","timestamp":"2025-03-21T11:53:25.895Z"}
+{"level":"info","message":"Autenticado com sucesso!","timestamp":"2025-03-21T11:53:30.520Z"}
+{"level":"info","message":"Bot está conectado e pronto para uso!","timestamp":"2025-03-21T11:53:30.611Z"}
+{"level":"info","message":"Obtidos 1 contatos, 1 grupos e 0 etiquetas","timestamp":"2025-03-21T11:53:30.906Z"}
+{"level":"info","message":"Processador de mensagens em massa iniciado","timestamp":"2025-03-21T11:54:04.456Z"}
+{"level":"info","message":"Serviços inicializados com sucesso!","timestamp":"2025-03-21T11:54:04.458Z"}
+{"level":"info","message":"Servidor iniciado na porta 3030","timestamp":"2025-03-21T11:54:04.475Z"}
+{"level":"info","message":"QR Code gerado! Escaneie-o com o WhatsApp do seu telefone.","timestamp":"2025-03-21T11:54:07.506Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (10000ms)","timestamp":"2025-03-21T11:54:26.711Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (10000ms)","timestamp":"2025-03-21T11:54:42.705Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (10000ms)","timestamp":"2025-03-21T11:54:57.779Z"}
+{"level":"info","message":"QR Code gerado! Escaneie-o com o WhatsApp do seu telefone.","timestamp":"2025-03-21T11:55:07.420Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (10000ms)","timestamp":"2025-03-21T11:55:13.736Z"}
+{"level":"info","message":"Autenticado com sucesso!","timestamp":"2025-03-21T11:55:28.062Z"}
+{"level":"info","message":"Bot está conectado e pronto para uso!","timestamp":"2025-03-21T11:55:28.141Z"}
+{"level":"info","message":"Obtidos 1 contatos, 1 grupos e 0 etiquetas","timestamp":"2025-03-21T11:55:28.890Z"}
+{"level":"info","message":"Processador de mensagens em massa iniciado","timestamp":"2025-03-21T12:00:39.163Z"}
+{"level":"info","message":"Serviços inicializados com sucesso!","timestamp":"2025-03-21T12:00:39.165Z"}
+{"level":"info","message":"Servidor iniciado na porta 3030","timestamp":"2025-03-21T12:00:39.184Z"}
+{"level":"info","message":"QR Code gerado! Escaneie-o com o WhatsApp do seu telefone.","timestamp":"2025-03-21T12:00:42.667Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-03-21T12:00:51.751Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-03-21T12:01:01.821Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-03-21T12:01:12.656Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-03-21T12:01:23.677Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-03-21T12:01:33.762Z"}
+{"level":"info","message":"QR Code gerado! Escaneie-o com o WhatsApp do seu telefone.","timestamp":"2025-03-21T12:01:42.562Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-03-21T12:01:44.666Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-03-21T12:01:54.730Z"}
+{"level":"info","message":"QR Code gerado! Escaneie-o com o WhatsApp do seu telefone.","timestamp":"2025-03-21T12:02:02.538Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-03-21T12:02:05.666Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-03-21T12:02:16.663Z"}
+{"level":"info","message":"QR Code gerado! Escaneie-o com o WhatsApp do seu telefone.","timestamp":"2025-03-21T12:02:22.550Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-03-21T12:02:27.672Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-03-21T12:02:37.715Z"}
+{"level":"info","message":"QR Code gerado! Escaneie-o com o WhatsApp do seu telefone.","timestamp":"2025-03-21T12:02:42.561Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-03-21T12:02:47.758Z"}
+{"level":"info","message":"Autenticado com sucesso!","timestamp":"2025-03-21T12:02:53.242Z"}
+{"level":"info","message":"Bot está conectado e pronto para uso!","timestamp":"2025-03-21T12:02:53.717Z"}
+{"level":"info","message":"Obtidos 792 contatos, 23 grupos e 0 etiquetas","timestamp":"2025-03-21T12:02:53.839Z"}
+{"level":"info","message":"Iniciando pré-inicialização do WhatsApp...","timestamp":"2025-03-21T12:15:48.068Z"}
+{"level":"info","message":"WhatsApp já foi pré-inicializado, ignorando reinicialização.","timestamp":"2025-03-21T12:15:48.072Z"}
+{"level":"info","message":"Processador de mensagens em massa iniciado","timestamp":"2025-03-21T12:15:48.073Z"}
+{"level":"info","message":"Serviços inicializados com sucesso!","timestamp":"2025-03-21T12:15:48.074Z"}
+{"level":"info","message":"Servidor iniciado na porta 3030","timestamp":"2025-03-21T12:15:48.090Z"}
+{"level":"info","message":"QR Code gerado! Escaneie-o com o WhatsApp do seu telefone.","timestamp":"2025-03-21T12:15:53.964Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-03-21T12:16:02.784Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-03-21T12:16:15.944Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-03-21T12:16:29.100Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-03-21T12:16:42.254Z"}
+{"level":"info","message":"QR Code gerado! Escaneie-o com o WhatsApp do seu telefone.","timestamp":"2025-03-21T12:16:53.874Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-03-21T12:16:55.413Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-03-21T12:17:08.580Z"}
+{"level":"info","message":"WhatsApp loading: 100% - WhatsApp","timestamp":"2025-03-21T12:17:09.027Z"}
+{"level":"info","message":"Autenticado com sucesso!","timestamp":"2025-03-21T12:17:17.392Z"}
+{"level":"info","message":"Bot está conectado e pronto para uso!","timestamp":"2025-03-21T12:17:17.905Z"}
+{"level":"info","message":"Cliente WhatsApp pronto após 4750ms","timestamp":"2025-03-21T12:17:18.369Z"}
+{"level":"info","message":"Obtidos 792 contatos, 23 grupos e 0 etiquetas","timestamp":"2025-03-21T12:17:18.584Z"}
+{"level":"info","message":"Obtidos 810 contatos, 43 grupos e 0 etiquetas","timestamp":"2025-03-21T12:17:58.664Z"}
+{"level":"info","message":"Obtidos 855 contatos, 43 grupos e 0 etiquetas","timestamp":"2025-03-21T12:18:15.962Z"}
