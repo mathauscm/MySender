@@ -9,6 +9,7 @@
     "start:browser": "node server.js & node scripts/open-browser.js"
   },
   "dependencies": {
+    "axios": "^1.8.4",
     "bull": "^4.10.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",

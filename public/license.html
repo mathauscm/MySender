@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MySender - Validação de Licença</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .license-container {
+      max-width: 500px;
+      margin: 100px auto;
+      padding: 30px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    .logo {
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .form-floating {
+      margin-bottom: 15px;
+    }
+    .license-info {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 5px;
+      background-color: #f8f9fa;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="license-container">
+      <div class="logo">
+        <span>MySender 🤖</span>
+      </div>
+      <h4 class="text-center mb-4">Validação de Licença</h4>
+      
+      <div id="licenseAlert" class="alert d-none" role="alert"></div>
+      
+      <form id="licenseForm">
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="licenseKey" placeholder="Chave de Licença" required>
+          <label for="licenseKey">Chave de Licença</label>
+        </div>
+        
+        <div class="form-floating mb-3">
+          <input type="email" class="form-control" id="licenseEmail" placeholder="E-mail associado (opcional)">
+          <label for="licenseEmail">E-mail associado (opcional)</label>
+        </div>
+        
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary" id="validateBtn">Validar Licença</button>
+        </div>
+      </form>
+      
+      <div id="licenseInfo" class="license-info">
+        <h5 class="mb-3">Informações da Licença</h5>
+        <p><strong>Status:</strong> <span id="licenseStatus">-</span></p>
+        <p><strong>Expira em:</strong> <span id="licenseExpires">-</span></p>
+        <p><strong>E-mail:</strong> <span id="licenseEmailDisplay">-</span></p>
+        <div class="d-grid mt-3">
+          <button id="continueBtn" class="btn btn-success">Continuar para MySender</button>
+        </div>
+      </div>
+      
+      <!-- Botão para debug -->
+      <div class="text-center mt-3">
+        <button id="manualRedirectBtn" class="btn btn-outline-secondary" style="display: none">Redirecionar Manualmente</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const licenseForm = document.getElementById('licenseForm');
+      const licenseAlert = document.getElementById('licenseAlert');
+      const validateBtn = document.getElementById('validateBtn');
+      const licenseInfo = document.getElementById('licenseInfo');
+      const licenseStatus = document.getElementById('licenseStatus');
+      const licenseExpires = document.getElementById('licenseExpires');
+      const licenseEmailDisplay = document.getElementById('licenseEmailDisplay');
+      const continueBtn = document.getElementById('continueBtn');
+      const manualRedirectBtn = document.getElementById('manualRedirectBtn');
+      
+      // Configurar botão de redirecionamento manual (para debug)
+      manualRedirectBtn.addEventListener('click', function() {
+        window.location.replace('/app');
+      });
+      
+      // Configurar botão de continuar
+      continueBtn.addEventListener('click', function() {
+        console.log('Botão continuar clicado, redirecionando...');
+        window.location.replace('/app');
+      });
+      
+      // Verificar se já existe uma licença válida
+      checkExistingLicense();
+      
+      licenseForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const licenseKey = document.getElementById('licenseKey').value.trim();
+        const email = document.getElementById('licenseEmail').value.trim();
+        
+        if (!licenseKey) {
+          showAlert('Por favor, insira uma chave de licença válida.', 'danger');
+          return;
+        }
+        
+        validateLicense(licenseKey, email);
+      });
+      
+      function validateLicense(licenseKey, email = null) {
+        validateBtn.disabled = true;
+        validateBtn.textContent = 'Validando...';
+        
+        const payload = { licenseKey };
+        if (email) payload.email = email;
+        
+        console.log('Enviando dados para validação:', payload);
+        
+        fetch('/api/validar-licenca', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        })
+        .then(response => {
+          console.log('Status da resposta:', response.status);
+          return response.json();
+        })
+        .then(data => {
+          console.log('Dados recebidos da API:', data);
+          
+          if (data.valid) {
+            showAlert('Licença válida!', 'success');
+            
+            // Armazenar licença válida como objeto
+            const licenseData = {
+              key: licenseKey,
+              email: data.data?.email || email,
+              expiresAt: data.data?.expiresAt
+            };
+            
+            localStorage.setItem('mysenderLicense', JSON.stringify(licenseData));
+            console.log('Dados salvos no localStorage:', JSON.stringify(licenseData));
+            
+            // Mostrar informações da licença
+            licenseStatus.textContent = 'Ativa';
+            licenseExpires.textContent = data.data?.expiresAt ? new Date(data.data.expiresAt).toLocaleDateString() : 'Não especificado';
+            licenseEmailDisplay.textContent = data.data?.email || email || 'Não especificado';
+            
+            // Esconder formulário e mostrar informações da licença
+            licenseForm.style.display = 'none';
+            licenseInfo.style.display = 'block';
+            
+            // Mostrar botão de debug apenas em caso de problema
+            setTimeout(() => {
+              manualRedirectBtn.style.display = 'inline-block';
+            }, 5000);
+          } else {
+            showAlert('Licença inválida: ' + (data.message || 'Chave não reconhecida'), 'danger');
+            validateBtn.disabled = false;
+            validateBtn.textContent = 'Validar Licença';
+          }
+        })
+        .catch(error => {
+          console.error('Erro ao validar licença:', error);
+          showAlert('Erro ao validar licença. Tente novamente.', 'danger');
+          validateBtn.disabled = false;
+          validateBtn.textContent = 'Validar Licença';
+        });
+      }
+      
+      function showAlert(message, type) {
+        licenseAlert.textContent = message;
+        licenseAlert.className = `alert alert-${type}`;
+      }
+      
+      function checkExistingLicense() {
+        const savedLicenseJson = localStorage.getItem('mysenderLicense');
+        
+        if (savedLicenseJson) {
+          try {
+            const savedLicense = JSON.parse(savedLicenseJson);
+            if (savedLicense.key) {
+              validateLicense(savedLicense.key, savedLicense.email);
+            }
+          } catch (e) {
+            console.error('Erro ao processar licença salva:', e);
+            // Para compatibilidade com versão anterior que salvava apenas a string
+            if (typeof savedLicenseJson === 'string') {
+              validateLicense(savedLicenseJson);
+            } else {
+              localStorage.removeItem('mysenderLicense');
+            }
+          }
+        }
+      }
+      
+      function formatDateString(dateString) {
+        if (!dateString) return 'Não especificado';
+        try {
+          const date = new Date(dateString);
+          return date.toLocaleDateString();
+        } catch (e) {
+          return dateString;
+        }
+      }
+    });
+  </script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

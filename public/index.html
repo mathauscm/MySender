@@ -9,7 +9,13 @@
 </head>
 <body>
   <div class="container py-4">
-    <h1 class="mb-4">MySender 🤖 | Envio em Massa</h1>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h1 class="mb-0">MySender 🤖 | Envio em Massa</h1>
+      <div>
+        <span class="text-muted me-2" id="licenseInfo">Licença: Verificando...</span>
+        <button id="logoutBtn" class="btn btn-outline-danger btn-sm">Sair</button>
+      </div>
+    </div>
     
     <div class="row">
       <div class="col-md-8">
@@ -211,5 +217,49 @@
   
   <!-- Scripts da aplicação - usando módulos ES6 -->
   <script type="module" src="js/app.js"></script>
+
+  <!-- Script para gerenciar licença e logout -->
+  <script type="module">
+    import { setupLicenseValidation } from './js/components/licenseHandler.js';
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      const licenseHandler = setupLicenseValidation();
+      const licenseInfo = document.getElementById('licenseInfo');
+      const logoutBtn = document.getElementById('logoutBtn');
+      
+      // Exibir informações da licença
+      if (licenseHandler.hasValidLicense()) {
+        const licenseData = licenseHandler.getLicense();
+        // Exibir apenas parte da licença por segurança
+        const licenseKey = licenseData.key;
+        const maskedLicense = licenseKey.substring(0, 4) + '****' + licenseKey.substring(licenseKey.length - 4);
+        
+        // Verificar expiração
+        let licenseStatus = '';
+        if (licenseHandler.isLicenseExpired()) {
+          licenseStatus = ' <span class="badge bg-danger">Expirada</span>';
+        } else if (licenseData.expiresAt) {
+          const expiryDate = new Date(licenseData.expiresAt).toLocaleDateString();
+          licenseStatus = ` <span class="badge bg-success">Válida até ${expiryDate}</span>`;
+        } else {
+          licenseStatus = ' <span class="badge bg-success">Válida</span>';
+        }
+        
+        licenseInfo.innerHTML = `<strong>Licença:</strong> ${maskedLicense}${licenseStatus}`;
+      } else {
+        licenseInfo.textContent = 'Licença: Não encontrada';
+        // Redirecionar para página de licença se não tiver licença válida
+        window.location.href = '/';
+      }
+      
+      // Configurar botão de logout
+      logoutBtn.addEventListener('click', function() {
+        if (confirm('Tem certeza que deseja sair? Você precisará validar sua licença novamente.')) {
+          licenseHandler.clearLicense();
+          window.location.href = '/';
+        }
+      });
+    });
+  </script>
 </body>
 </html>
