@@ -1,7 +1,7 @@
 // routes/buscarLicenca.js (versão modificada com logs)
 const axios = require('axios');
 
-const GITHUB_TOKEN = "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";
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN || "";
 const REPO_OWNER = "mathauscm";
 const REPO_NAME = "mysender-licenses";
 const BASE_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/data`;

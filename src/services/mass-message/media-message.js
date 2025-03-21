@@ -3,6 +3,7 @@ const { client, logger } = require('../../whatsappClient');
 const { MessageMedia } = require('whatsapp-web.js');
 const { broadcastStorage } = require('../../persistentStorage');
 const { messageQueue, activeBroadcasts } = require('./queue');
+const contactService = require('../../contactService');
 
 /**
  * Inicia um envio em massa com mídia
@@ -14,10 +15,53 @@ const { messageQueue, activeBroadcasts } = require('./queue');
  */
 async function startMediaBroadcast(contacts, mediaUrl, caption = '', delay = 3000) {
   try {
-    logger.info(`Iniciando envio em massa de mídia para ${contacts.length} contatos`);
+    logger.info(`Iniciando envio em massa de mídia para ${contacts.length} contatos/grupos/etiquetas`);
+    
+    // Verificar se a mídia existe e é válida
+    try {
+      const media = MessageMedia.fromFilePath(mediaUrl);
+    } catch (error) {
+      throw new Error(`Mídia inválida ou inacessível: ${error.message}`);
+    }
+    
+    // Expandir etiquetas para obter contatos associados
+    let expandedContacts = [];
+    let skippedLabels = 0;
+    
+    for (const contact of contacts) {
+      if (contact.type === 'label') {
+        try {
+          // Obter contatos da etiqueta
+          const labelContacts = await contactService.getContactsFromLabel(contact.id);
+          
+          if (labelContacts && labelContacts.length > 0) {
+            logger.info(`Etiqueta "${contact.name}" expandida para ${labelContacts.length} contatos`);
+            expandedContacts = [...expandedContacts, ...labelContacts];
+          } else {
+            logger.warn(`Nenhum contato obtido da etiqueta ${contact.name}. Esta etiqueta será ignorada.`);
+            skippedLabels++;
+          }
+        } catch (error) {
+          logger.error(`Erro ao expandir etiqueta ${contact.name}:`, error);
+          skippedLabels++;
+        }
+      } else {
+        // Se não for etiqueta, adicionar diretamente
+        expandedContacts.push(contact);
+      }
+    }
+    
+    // Verificar se há destinatários após expansão
+    if (expandedContacts.length === 0) {
+      if (skippedLabels > 0) {
+        throw new Error(`Não foi possível obter contatos das etiquetas selecionadas. Esta funcionalidade pode não ser suportada na versão atual.`);
+      } else {
+        throw new Error('Nenhum destinatário válido para envio');
+      }
+    }
     
     const broadcastId = Date.now().toString();
-    const totalContacts = contacts.length;
+    const totalContacts = expandedContacts.length;
     
     // Registrar o broadcast
     const broadcastInfo = {
@@ -39,16 +83,9 @@ async function startMediaBroadcast(contacts, mediaUrl, caption = '', delay = 300
     // Manter em memória para atualizações frequentes
     activeBroadcasts[broadcastId] = broadcastInfo;
     
-    // Verificar se a mídia existe e é válida
-    try {
-      const media = MessageMedia.fromFilePath(mediaUrl);
-    } catch (error) {
-      throw new Error(`Mídia inválida ou inacessível: ${error.message}`);
-    }
-    
     // Adicionar cada mensagem à fila com delay incremental
-    for (let i = 0; i < contacts.length; i++) {
-      const contact = contacts[i];
+    for (let i = 0; i < expandedContacts.length; i++) {
+      const contact = expandedContacts[i];
       
       await messageQueue.add({
         phone: contact.id,

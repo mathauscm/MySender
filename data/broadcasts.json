@@ -65,5 +65,60 @@
     "successCount": 1,
     "failCount": 0,
     "isMedia": false
+  },
+  {
+    "id": "1742590118803",
+    "timestamp": "2025-03-21T20:48:38.803Z",
+    "message": "Olá",
+    "totalContacts": 1,
+    "status": "completed_with_errors",
+    "progress": 0,
+    "successCount": 0,
+    "failCount": 2,
+    "isMedia": false
+  },
+  {
+    "id": "1742590594965",
+    "timestamp": "2025-03-21T20:56:34.965Z",
+    "message": "Olá",
+    "totalContacts": 0,
+    "status": "in_progress",
+    "progress": 0,
+    "successCount": 0,
+    "failCount": 0,
+    "isMedia": false
+  },
+  {
+    "id": "1742590642200",
+    "timestamp": "2025-03-21T20:57:22.200Z",
+    "message": "Oi",
+    "totalContacts": 1,
+    "status": "completed",
+    "progress": 100,
+    "successCount": 1,
+    "failCount": 0,
+    "isMedia": false
+  },
+  {
+    "id": "1742590679857",
+    "timestamp": "2025-03-21T20:57:59.858Z",
+    "message": "Oláaaaaaaaaa",
+    "totalContacts": 0,
+    "status": "in_progress",
+    "progress": 0,
+    "successCount": 0,
+    "failCount": 0,
+    "isMedia": false
+  },
+  {
+    "id": "1742591305781",
+    "timestamp": "2025-03-21T21:08:25.781Z",
+    "message": "etiqueta",
+    "totalContacts": 1,
+    "status": "completed",
+    "progress": 100,
+    "successCount": 1,
+    "failCount": 0,
+    "isMedia": false
   }
 ]
