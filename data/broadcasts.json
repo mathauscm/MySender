@@ -54,5 +54,16 @@
     "successCount": 1,
     "failCount": 0,
     "isMedia": false
+  },
+  {
+    "id": "1742577885630",
+    "timestamp": "2025-03-21T17:24:45.630Z",
+    "message": "Oi",
+    "totalContacts": 1,
+    "status": "completed",
+    "progress": 100,
+    "successCount": 1,
+    "failCount": 0,
+    "isMedia": false
   }
 ]
