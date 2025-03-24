@@ -433,3 +433,28 @@
 {"level":"info","message":"WhatsApp loading: 47% - WhatsApp","timestamp":"2025-03-21T22:16:18.214Z"}
 {"level":"info","message":"WhatsApp loading: 94% - WhatsApp","timestamp":"2025-03-21T22:16:19.245Z"}
 {"level":"info","message":"WhatsApp loading: 99% - WhatsApp","timestamp":"2025-03-21T22:16:19.637Z"}
+{"level":"info","message":"Iniciando pré-inicialização do WhatsApp...","timestamp":"2025-03-22T12:49:32.383Z"}
+{"level":"info","message":"WhatsApp já foi pré-inicializado, ignorando reinicialização.","timestamp":"2025-03-22T12:49:32.390Z"}
+{"level":"info","message":"Processador de mensagens em massa iniciado","timestamp":"2025-03-22T12:49:32.392Z"}
+{"level":"info","message":"Serviços inicializados com sucesso!","timestamp":"2025-03-22T12:49:32.394Z"}
+{"level":"info","message":"Servidor iniciado na porta 3030","timestamp":"2025-03-22T12:49:32.465Z"}
+{"level":"info","message":"WhatsApp loading: 0% - WhatsApp","timestamp":"2025-03-22T12:49:49.618Z"}
+{"level":"info","message":"WhatsApp loading: 5% - WhatsApp","timestamp":"2025-03-22T12:49:50.680Z"}
+{"level":"info","message":"WhatsApp loading: 9% - WhatsApp","timestamp":"2025-03-22T12:49:51.681Z"}
+{"level":"info","message":"WhatsApp loading: 12% - WhatsApp","timestamp":"2025-03-22T12:49:52.189Z"}
+{"level":"info","message":"WhatsApp loading: 16% - WhatsApp","timestamp":"2025-03-22T12:49:52.685Z"}
+{"level":"info","message":"WhatsApp loading: 18% - WhatsApp","timestamp":"2025-03-22T12:49:53.728Z"}
+{"level":"info","message":"WhatsApp loading: 31% - WhatsApp","timestamp":"2025-03-22T12:49:54.733Z"}
+{"level":"info","message":"WhatsApp loading: 43% - WhatsApp","timestamp":"2025-03-22T12:49:55.743Z"}
+{"level":"info","message":"WhatsApp loading: 59% - WhatsApp","timestamp":"2025-03-22T12:49:56.762Z"}
+{"level":"info","message":"WhatsApp loading: 68% - WhatsApp","timestamp":"2025-03-22T12:49:57.745Z"}
+{"level":"info","message":"WhatsApp loading: 88% - WhatsApp","timestamp":"2025-03-22T12:49:58.746Z"}
+{"level":"info","message":"WhatsApp loading: 92% - WhatsApp","timestamp":"2025-03-22T12:49:59.750Z"}
+{"level":"info","message":"WhatsApp loading: 100% - WhatsApp","timestamp":"2025-03-22T12:50:00.409Z"}
+{"level":"info","message":"Autenticado com sucesso!","timestamp":"2025-03-22T12:50:04.962Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-03-22T12:50:05.809Z"}
+{"level":"info","message":"Bot está conectado e pronto para uso!","timestamp":"2025-03-22T12:50:06.588Z"}
+{"level":"info","message":"Obtidos 361 contatos, 6 grupos e 8 etiquetas","timestamp":"2025-03-22T12:50:11.572Z"}
+{"level":"info","message":"Iniciando envio em massa para 1 contatos/grupos/etiquetas","timestamp":"2025-03-22T12:50:34.320Z"}
+{"level":"info","message":"Broadcast 1742647834321 enfileirado com sucesso. Total: 1 mensagens.","timestamp":"2025-03-22T12:50:34.351Z"}
+{"level":"info","message":"[Broadcast 1742647834321] Mensagem enviada para 558896857211@c.us (1/1)","timestamp":"2025-03-22T12:50:34.398Z"}
