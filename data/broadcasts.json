@@ -131,5 +131,23 @@
     "successCount": 1,
     "failCount": 0,
     "isMedia": false
+  },
+  {
+    "id": "1743888259266",
+    "timestamp": "2025-04-05T21:24:19.266Z",
+    "mediaPaths": [
+      "C:\\Users\\Ana\\Documents\\Projects\\MySender\\uploads\\1743888259121.png",
+      "C:\\Users\\Ana\\Documents\\Projects\\MySender\\uploads\\1743888259124.png",
+      "C:\\Users\\Ana\\Documents\\Projects\\MySender\\uploads\\1743888259132.png"
+    ],
+    "caption": "Oi",
+    "totalContacts": 1,
+    "status": "completed",
+    "progress": 100,
+    "successCount": 1,
+    "failCount": 0,
+    "isMedia": true,
+    "isMultiMedia": true,
+    "mediaCount": 3
   }
 ]

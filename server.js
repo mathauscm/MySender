@@ -29,12 +29,12 @@ app.use(express.json());
 // Conectar Socket.IO com whatsappClient
 io.on('connection', (socket) => {
   console.log('Cliente conectado ao Socket.IO');
-  
+
   // Se o cliente já estiver autenticado, envie evento de autenticação
   if (client.info) {
     socket.emit('whatsapp-authenticated');
   }
-  
+
   socket.on('disconnect', () => {
     console.log('Cliente desconectado do Socket.IO');
   });
@@ -45,7 +45,7 @@ const ensureClientReady = async (req, res, next) => {
   try {
     const isReady = await contactService.waitForClientReady(5000); // Reduzido para 5 segundos
     if (!isReady) {
-      return res.status(503).json({ 
+      return res.status(503).json({
         error: 'Cliente WhatsApp não está pronto. Aguarde alguns instantes e tente novamente.',
         clientStatus: client.info ? 'ready' : 'initializing'
       });
@@ -59,15 +59,15 @@ const ensureClientReady = async (req, res, next) => {
 
 // Configuração do Multer para upload de arquivos
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
+  destination: function (req, file, cb) {
     cb(null, path.join(__dirname, 'uploads'));
   },
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname));
   }
 });
 
-const upload = multer({ 
+const upload = multer({
   storage: storage,
   limits: { fileSize: 16 * 1024 * 1024 } // Limite de 16MB
 });
@@ -102,10 +102,10 @@ async function initializeServices() {
     } else {
       logger.info('WhatsApp já foi pré-inicializado, ignorando reinicialização.');
     }
-    
+
     // Inicia o processador de mensagens
     massMessageService.initialize();
-    
+
     logger.info('Serviços inicializados com sucesso!');
   } catch (error) {
     logger.error('Erro ao inicializar serviços:', error);
@@ -157,20 +157,20 @@ app.post('/api/whatsapp/disconnect', verificarLicenca, async (req, res) => {
       await client.logout();
       logger.info('Cliente WhatsApp desconectado via API');
     }
-    
+
     // Limpar diretórios de autenticação
     const fs = require('fs');
     const path = require('path');
-    
+
     const authDir = path.join(__dirname, '.wwebjs_auth');
     const cacheDir = path.join(__dirname, '.wwebjs_cache');
-    
+
     // Verificar e remover diretórios
     if (fs.existsSync(authDir)) {
       // Usar uma função recursiva para remover diretórios
-      const rimraf = function(dir) {
+      const rimraf = function (dir) {
         if (fs.existsSync(dir)) {
-          fs.readdirSync(dir).forEach(function(file) {
+          fs.readdirSync(dir).forEach(function (file) {
             const curPath = path.join(dir, file);
             if (fs.lstatSync(curPath).isDirectory()) {
               // Recursivamente remover subdiretórios
@@ -183,16 +183,16 @@ app.post('/api/whatsapp/disconnect', verificarLicenca, async (req, res) => {
           fs.rmdirSync(dir);
         }
       };
-      
+
       rimraf(authDir);
       logger.info('Diretório .wwebjs_auth removido');
     }
-    
+
     if (fs.existsSync(cacheDir)) {
       // Usar a mesma função para remover o diretório de cache
-      const rimraf = function(dir) {
+      const rimraf = function (dir) {
         if (fs.existsSync(dir)) {
-          fs.readdirSync(dir).forEach(function(file) {
+          fs.readdirSync(dir).forEach(function (file) {
             const curPath = path.join(dir, file);
             if (fs.lstatSync(curPath).isDirectory()) {
               rimraf(curPath);
@@ -203,20 +203,20 @@ app.post('/api/whatsapp/disconnect', verificarLicenca, async (req, res) => {
           fs.rmdirSync(dir);
         }
       };
-      
+
       rimraf(cacheDir);
       logger.info('Diretório .wwebjs_cache removido');
     }
-    
+
     // Emitir evento via socket.io para informar o frontend
     io.emit('whatsapp-disconnected');
-    
+
     // Reiniciar cliente WhatsApp
     setTimeout(() => {
       preInitialized = false;
       preInitializeWhatsApp();
     }, 1000);
-    
+
     res.json({ success: true, message: 'WhatsApp desconectado com sucesso' });
   } catch (error) {
     logger.error('Erro ao desconectar WhatsApp:', error);
@@ -250,15 +250,15 @@ app.get('/api/contacts/search', ensureClientReady, async (req, res) => {
 app.post('/api/broadcasts', ensureClientReady, async (req, res) => {
   try {
     const { contacts, message, delay } = req.body;
-    
+
     if (!contacts || !Array.isArray(contacts) || contacts.length === 0) {
       return res.status(400).json({ error: 'Lista de contatos é obrigatória' });
     }
-    
+
     if (!message) {
       return res.status(400).json({ error: 'Mensagem é obrigatória' });
     }
-    
+
     const result = await massMessageService.startBroadcast(contacts, message, delay || 3000);
     res.status(201).json(result);
   } catch (error) {
@@ -271,19 +271,19 @@ app.post('/api/broadcasts', ensureClientReady, async (req, res) => {
 app.post('/api/broadcasts/schedule', ensureClientReady, async (req, res) => {
   try {
     const { contacts, message, scheduledTime, delay } = req.body;
-    
+
     if (!contacts || !Array.isArray(contacts) || contacts.length === 0) {
       return res.status(400).json({ error: 'Lista de contatos é obrigatória' });
     }
-    
+
     if (!message) {
       return res.status(400).json({ error: 'Mensagem é obrigatória' });
     }
-    
+
     if (!scheduledTime) {
       return res.status(400).json({ error: 'Data de agendamento é obrigatória' });
     }
-    
+
     const result = await massMessageService.scheduleBroadcast(contacts, message, scheduledTime, delay || 3000);
     res.status(201).json(result);
   } catch (error) {
@@ -305,11 +305,11 @@ app.get('/api/broadcasts', (req, res) => {
 app.get('/api/broadcasts/:id', (req, res) => {
   try {
     const broadcastStatus = massMessageService.getBroadcastStatus(req.params.id);
-    
+
     if (!broadcastStatus) {
       return res.status(404).json({ error: 'Broadcast não encontrado' });
     }
-    
+
     res.json(broadcastStatus);
   } catch (error) {
     logger.error('Erro ao buscar status do broadcast:', error);
@@ -339,28 +339,29 @@ app.get('/api/schedules/pending', (req, res) => {
 });
 
 // Rotas para envio de mídia
-app.post('/api/broadcasts/media', ensureClientReady, upload.single('media'), async (req, res) => {
+app.post('/api/broadcasts/media', ensureClientReady, upload.array('media'), async (req, res) => {
   try {
     const { contacts, caption, delay } = req.body;
     const contactsList = JSON.parse(contacts);
-    
-    if (!req.file) {
+
+    if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: 'Nenhum arquivo enviado' });
     }
-    
+
     if (!contactsList || !Array.isArray(contactsList) || contactsList.length === 0) {
       return res.status(400).json({ error: 'Lista de contatos é obrigatória' });
     }
-    
-    const mediaPath = req.file.path;
-    
-    const result = await massMessageService.startMediaBroadcast(
-      contactsList, 
-      mediaPath, 
-      caption || '', 
+
+    // Obter caminhos de todos os arquivos
+    const mediaPaths = req.files.map(file => file.path);
+
+    const result = await massMessageService.startMultiMediaBroadcast(
+      contactsList,
+      mediaPaths,
+      caption || '',
       parseInt(delay) || 3000
     );
-    
+
     res.status(201).json(result);
   } catch (error) {
     logger.error('Erro ao iniciar broadcast de mídia:', error);
@@ -369,33 +370,34 @@ app.post('/api/broadcasts/media', ensureClientReady, upload.single('media'), asy
 });
 
 // Nova rota para agendamento de mensagens com mídia
-app.post('/api/broadcasts/media/schedule', ensureClientReady, upload.single('media'), async (req, res) => {
+app.post('/api/broadcasts/media/schedule', ensureClientReady, upload.array('media'), async (req, res) => {
   try {
     const { contacts, caption, scheduledTime, delay } = req.body;
     const contactsList = JSON.parse(contacts);
-    
-    if (!req.file) {
+
+    if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: 'Nenhum arquivo enviado' });
     }
-    
+
     if (!contactsList || !Array.isArray(contactsList) || contactsList.length === 0) {
       return res.status(400).json({ error: 'Lista de contatos é obrigatória' });
     }
-    
+
     if (!scheduledTime) {
       return res.status(400).json({ error: 'Data de agendamento é obrigatória' });
     }
-    
-    const mediaPath = req.file.path;
-    
-    const result = await massMessageService.scheduleMediaBroadcast(
-      contactsList, 
-      mediaPath, 
-      caption || '', 
+
+    // Obter caminhos de todos os arquivos
+    const mediaPaths = req.files.map(file => file.path);
+
+    const result = await massMessageService.scheduleMultiMediaBroadcast(
+      contactsList,
+      mediaPaths,
+      caption || '',
       scheduledTime,
       parseInt(delay) || 3000
     );
-    
+
     res.status(201).json(result);
   } catch (error) {
     logger.error('Erro ao agendar broadcast de mídia:', error);
@@ -407,7 +409,7 @@ app.post('/api/broadcasts/media/schedule', ensureClientReady, upload.single('med
 initializeServices().then(() => {
   server.listen(port, () => {
     logger.info(`Servidor iniciado na porta ${port}`);
-    
+
     // Adicionar mensagem clara no console com a URL
     console.log('\x1b[36m%s\x1b[0m', `🚀 Aplicação rodando em http://localhost:${port}`);
     console.log('\x1b[33m%s\x1b[0m', `⚠️  Se o navegador não abrir automaticamente, acesse a URL acima manualmente.`);
