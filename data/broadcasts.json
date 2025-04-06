@@ -149,5 +149,22 @@
     "isMedia": true,
     "isMultiMedia": true,
     "mediaCount": 3
+  },
+  {
+    "id": "1743898878123",
+    "timestamp": "2025-04-06T00:21:18.123Z",
+    "mediaPaths": [
+      "C:\\Users\\Mathaus Carvalho\\Documents\\Projetos\\MySender\\uploads\\1743898878054.jpeg",
+      "C:\\Users\\Mathaus Carvalho\\Documents\\Projetos\\MySender\\uploads\\1743898878055.gif"
+    ],
+    "caption": "Chama",
+    "totalContacts": 1,
+    "status": "completed",
+    "progress": 100,
+    "successCount": 1,
+    "failCount": 0,
+    "isMedia": true,
+    "isMultiMedia": true,
+    "mediaCount": 2
   }
 ]

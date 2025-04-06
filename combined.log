@@ -712,3 +712,30 @@
 {"level":"info","message":"[Broadcast 1743888259266] Mídia 1/3 enviada para 558597233264@c.us (contato 1/1)","timestamp":"2025-04-05T21:24:22.586Z"}
 {"level":"info","message":"[Broadcast 1743888259266] Mídia 2/3 enviada para 558597233264@c.us (contato 1/1)","timestamp":"2025-04-05T21:24:24.020Z"}
 {"level":"info","message":"[Broadcast 1743888259266] Mídia 3/3 enviada para 558597233264@c.us (contato 1/1)","timestamp":"2025-04-05T21:24:25.887Z"}
+{"level":"info","message":"Iniciando pré-inicialização do WhatsApp...","timestamp":"2025-04-06T00:14:07.651Z"}
+{"level":"info","message":"WhatsApp já foi pré-inicializado, ignorando reinicialização.","timestamp":"2025-04-06T00:14:07.655Z"}
+{"level":"info","message":"Processador de mensagens em massa iniciado","timestamp":"2025-04-06T00:14:07.660Z"}
+{"level":"info","message":"Serviços inicializados com sucesso!","timestamp":"2025-04-06T00:14:07.661Z"}
+{"level":"info","message":"Servidor iniciado na porta 3030","timestamp":"2025-04-06T00:14:07.714Z"}
+{"level":"info","message":"QR Code gerado! Escaneie-o com o WhatsApp do seu telefone.","timestamp":"2025-04-06T00:14:13.653Z"}
+{"level":"info","message":"QR Code gerado! Escaneie-o com o WhatsApp do seu telefone.","timestamp":"2025-04-06T00:15:13.556Z"}
+{"level":"info","message":"Iniciando pré-inicialização do WhatsApp...","timestamp":"2025-04-06T00:19:30.490Z"}
+{"level":"info","message":"WhatsApp já foi pré-inicializado, ignorando reinicialização.","timestamp":"2025-04-06T00:19:30.493Z"}
+{"level":"info","message":"Processador de mensagens em massa iniciado","timestamp":"2025-04-06T00:19:30.494Z"}
+{"level":"info","message":"Serviços inicializados com sucesso!","timestamp":"2025-04-06T00:19:30.494Z"}
+{"level":"info","message":"Servidor iniciado na porta 3030","timestamp":"2025-04-06T00:19:30.512Z"}
+{"level":"info","message":"QR Code gerado! Escaneie-o com o WhatsApp do seu telefone.","timestamp":"2025-04-06T00:19:34.831Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-04-06T00:19:46.706Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-04-06T00:19:59.876Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-04-06T00:20:13.044Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-04-06T00:20:26.216Z"}
+{"level":"info","message":"QR Code gerado! Escaneie-o com o WhatsApp do seu telefone.","timestamp":"2025-04-06T00:20:34.738Z"}
+{"level":"warn","message":"Timeout ao aguardar cliente WhatsApp (5000ms)","timestamp":"2025-04-06T00:20:39.374Z"}
+{"level":"info","message":"WhatsApp loading: 100% - WhatsApp","timestamp":"2025-04-06T00:20:43.790Z"}
+{"level":"info","message":"Autenticado com sucesso!","timestamp":"2025-04-06T00:20:44.286Z"}
+{"level":"info","message":"Bot está conectado e pronto para uso!","timestamp":"2025-04-06T00:20:44.357Z"}
+{"level":"info","message":"Obtidos 1 contatos, 1 grupos e 0 etiquetas","timestamp":"2025-04-06T00:20:44.388Z"}
+{"level":"info","message":"Iniciando envio em massa de 2 arquivos de mídia para 1 contatos/grupos/etiquetas","timestamp":"2025-04-06T00:21:18.115Z"}
+{"level":"info","message":"Broadcast de múltiplas mídias 1743898878123 enfileirado com sucesso. Total: 1 contatos, 2 arquivos por contato.","timestamp":"2025-04-06T00:21:18.136Z"}
+{"level":"info","message":"[Broadcast 1743898878123] Mídia 1/2 enviada para 558597233264@c.us (contato 1/1)","timestamp":"2025-04-06T00:21:18.867Z"}
+{"level":"info","message":"[Broadcast 1743898878123] Mídia 2/2 enviada para 558597233264@c.us (contato 1/1)","timestamp":"2025-04-06T00:21:20.383Z"}

@@ -232,7 +232,7 @@ function checkInitialStatus() {
                    aria-valuemax="100"></div>
             </div>
             <small class="text-muted mt-1 d-block">
-              A primeira inicialização pode demorar até 45 segundos.
+              A primeira inicialização pode demorar até 2 minutos.
             </small>
           `;
         }
