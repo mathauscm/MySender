@@ -12,6 +12,10 @@ const messageQueue = new Queue('whatsapp-mass-messages', {
   redis: {
     host: process.env.REDIS_HOST || 'localhost',
     port: process.env.REDIS_PORT || 6379,
+    maxRetriesPerRequest: 50,
+    retryStrategy: function (times) {
+      return Math.min(times * 100, 3000);
+    }
   }
 });
 

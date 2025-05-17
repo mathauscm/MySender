@@ -9,6 +9,7 @@ function Write-ColoredMessage {
 }
 
 # Verificar se o script está sendo executado como administrador
+# Verificar se o script está sendo executado como administrador
 $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 if (-not $isAdmin) {
     Write-ColoredMessage "Este script precisa ser executado como administrador. Por favor, reinicie o PowerShell como administrador." Red

@@ -739,3 +739,13 @@
 {"level":"info","message":"Broadcast de múltiplas mídias 1743898878123 enfileirado com sucesso. Total: 1 contatos, 2 arquivos por contato.","timestamp":"2025-04-06T00:21:18.136Z"}
 {"level":"info","message":"[Broadcast 1743898878123] Mídia 1/2 enviada para 558597233264@c.us (contato 1/1)","timestamp":"2025-04-06T00:21:18.867Z"}
 {"level":"info","message":"[Broadcast 1743898878123] Mídia 2/2 enviada para 558597233264@c.us (contato 1/1)","timestamp":"2025-04-06T00:21:20.383Z"}
+{"level":"info","message":"Iniciando pré-inicialização do WhatsApp...","timestamp":"2025-05-15T20:15:32.990Z"}
+{"level":"info","message":"WhatsApp já foi pré-inicializado, ignorando reinicialização.","timestamp":"2025-05-15T20:15:32.993Z"}
+{"level":"info","message":"Processador de mensagens em massa iniciado","timestamp":"2025-05-15T20:15:32.999Z"}
+{"level":"info","message":"Serviços inicializados com sucesso!","timestamp":"2025-05-15T20:15:32.999Z"}
+{"level":"info","message":"Servidor iniciado na porta 3030","timestamp":"2025-05-15T20:15:33.062Z"}
+{"level":"info","message":"QR Code gerado! Escaneie-o com o WhatsApp do seu telefone.","timestamp":"2025-05-15T20:15:41.738Z"}
+{"level":"info","message":"WhatsApp loading: 100% - WhatsApp","timestamp":"2025-05-15T20:16:19.585Z"}
+{"level":"info","message":"Autenticado com sucesso!","timestamp":"2025-05-15T20:16:19.973Z"}
+{"level":"info","message":"Bot está conectado e pronto para uso!","timestamp":"2025-05-15T20:16:20.396Z"}
+{"level":"info","message":"Obtidos 1 contatos, 1 grupos e 8 etiquetas","timestamp":"2025-05-15T20:17:43.745Z"}
